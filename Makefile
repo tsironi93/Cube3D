@@ -4,12 +4,28 @@ NAME			=	Cube3D
 
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -Wunreachable-code -Ofast -g -MMD #-fsanitize=address -fno-omit-frame-pointer
+MLXFLAGS		=	-DDEBUG=1 -DGLFW_FETCH=OFF
 
 LIBFT_DIR		=	./libs/libft
 LIBMLX			=	./libs/MLX42
-LIBS			=	$(LIBMLX)/build/libmlx42.a -lglfw -pthread -lm $(LIBFT_DIR)/libft.a
 
-HEADERS			= -I ./include -I $(LIBMLX)/include
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), Darwin)
+	# macOS-specific flags
+	CFLAGS  += -DMACOS
+	LIBS    = $(LIBMLX)/build/libmlx42.a -lglfw \
+	          -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo \
+	          -pthread -lm $(LIBFT_DIR)/libft.a
+else ifeq ($(UNAME_S), Linux)
+	# Linux-specific flags
+	CFLAGS  += -DLINUX
+	LIBS    = $(LIBMLX)/build/libmlx42.a -lglfw -ldl -lGL -lm -pthread $(LIBFT_DIR)/libft.a
+endif
+
+#LIBS			=	$(LIBMLX)/build/libmlx42.a -lglfw -pthread -lm $(LIBFT_DIR)/libft.a
+
+HEADERS			=	-I ./include -I $(LIBMLX)/include
 
 SRC				=	$(shell find ./src -iname "*.c")
 SRC_DIR			=	./src
@@ -60,7 +76,7 @@ all: submodule libft libmlx $(NAME)
 
 
 libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+	@cmake $(MLXFLAGS) $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 libft:
 	@$(MAKE) -C $(LIBFT_DIR)

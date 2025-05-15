@@ -6,7 +6,7 @@
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/15 13:41:28 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:31:02 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include "./libs/MLX42/include/MLX42/MLX42.h"
 # include "./libs/libft/libft.h"
-# define WIDTH 1024
+# define WIDTH 1980
 # define HEIGHT 1024
 
 /**
@@ -31,13 +31,10 @@
  * current frame.
  */
 
-typedef struct s_mlx
+typedef struct s_data
 {
-	void	*window;
-	void	*context;
-	int32_t	*width;
-	int32_t	height;
-	double	delta_time;
-}	t_mlx;
+	mlx_t		*mlx;
+	mlx_image_t	*image;
+}	t_data;
 
 #endif // !CUBE3D_H
