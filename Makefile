@@ -7,7 +7,7 @@ CFLAGS			=	-Wall -Wextra -Werror -Wunreachable-code -Ofast -g -MMD #-fsanitize=a
 
 LIBFT_DIR		=	./libs/libft
 LIBMLX			=	./libs/MLX42
-LIBS			=	$(LIBMLX)/build/libmlx42.a -pthread -lm $(LIBFT_DIR)/libft.a
+LIBS			=	$(LIBMLX)/build/libmlx42.a -lglfw -pthread -lm $(LIBFT_DIR)/libft.a
 
 HEADERS			= -I ./include -I $(LIBMLX)/include
 
