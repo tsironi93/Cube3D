@@ -1,0 +1,12 @@
+# Ignore everything
+*
+
+# Allow all directories
+!*/
+
+# Allow C source and header files
+!*.c
+!*.h
+!.*
+# Allow Makefile
+!Makefile

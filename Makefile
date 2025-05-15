@@ -5,11 +5,11 @@ NAME			=	Cube3D
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -Wunreachable-code -Ofast -g -MMD #-fsanitize=address -fno-omit-frame-pointer
 
-LIBFT_DIR		=	.libs/libft
+LIBFT_DIR		=	./libs/libft
 LIBMLX			=	./libs/MLX42
-LIBS			=	$(LIBMLX)/build/libmlx42.a -ldl -lglw -pthread -lm $(LIBFT_DIR)/libft.a
+LIBS			=	$(LIBMLX)/build/libmlx42.a -pthread -lm $(LIBFT_DIR)/libft.a
 
-HEADERS	= -I ./include -I $(LIBMLX)/include
+HEADERS			= -I ./include -I $(LIBMLX)/include
 
 SRC				=	$(shell find ./src -iname "*.c")
 SRC_DIR			=	./src
@@ -36,7 +36,7 @@ SHIFT	=	$(eval O=$(shell echo $$((($(O)%13)+1))))
 LBOR	=	"▌│█║▌║▌║ "
 RBOR	= 	" ║▌║▌║█│▌"
 
-all: libft libmlx $(NAME)
+all: submodule libft libmlx $(NAME)
 	@echo "$(CYAN)"
 	@echo "\t⠀⠀⠀⠀⠀⣀⣤⡴⢀⣠⣤⣴⣶⡶⠿⠿⠿⠿⣿⣿⣶⣶⣦⣟⡶⢦⣄⡀⠀⠀⠀"
 	@echo "\t⠀⠀⢀⣴⡿⠛⣡⡾⠛⢋⣩⡄⠀⠀⠀⠀⠀⠀⠀⠀⠶⣭⣙⠻⢿⣷⣌⢙⢷⣄⠀"
@@ -78,10 +78,18 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
+SUBMODULES_INITIALIZED := $(shell test -d $(LIBFT_DIR)/.git && test -d $(LIBMLX)/.git && echo yes)
+
 submodule:
+ifeq ($(SUBMODULES_INITIALIZED),)
 	@echo "$(CYAN)$(LBOR) Initializing submodules... $(RBOR)$(WHITE)"
 	@git submodule update --init --recursive
-	@$(MAKE) -C $(LIBFT_DIR)
+endif
+
+# submodule:
+# 	@echo "$(CYAN)$(LBOR) Initializing submodules... $(RBOR)$(WHITE)"
+# 	@git submodule update --init --recursive --remote
+# 	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
 	@echo "\n\t   $(PINK)$(LBOR)Cleaning$(RBOR)$(WHITE)\n"
