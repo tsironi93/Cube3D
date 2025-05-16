@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 10:11:03 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/16 12:16:29 by itsiros          ###   ########.fr       */
+/*   Created: 2025/05/16 17:50:07 by itsiros           #+#    #+#             */
+/*   Updated: 2025/05/16 17:50:28 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube3d.h"
 
-void	ft_error(char *error, bool mlx_err)
+int	ft_isspace(int c)
 {
-	write(2, BOLD RED, sizeof(BOLD RED) - 1);
-	if (error)
-		write(2, error, ft_strlen(error));
-	if (mlx_err)
-		printf("%s", mlx_strerror(mlx_errno));
-	write(2, "\n", 1);
-	write(2, RESET, sizeof(RESET) - 1);
-	exit(EXIT_FAILURE);
+	if ((c > 8 && c < 14) || c == 32)
+		return (1);
+	return (0);
 }

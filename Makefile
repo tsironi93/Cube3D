@@ -37,20 +37,20 @@ OBJ				=	$(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 
 # COLORS
-BLUE	= 	\033[38;5;27m
-CYAN	= 	\033[38;5;51m
-PINK	=	 \033[38;5;211m
-GREEN	= 	\033[38;5;72m
-TURQ	= 	\033[38;5;37m
-WHITE	= 	\033[38;5;15m
-YELLOW	= 	\033[38;5;220m
-C		=	\033[38;5;
-O		=	37
-L		=	m
-SHIFT	=	$(eval O=$(shell echo $$((($(O)%13)+1))))
+BLUE			= 	\033[38;5;27m
+CYAN			= 	\033[38;5;51m
+PINK			=	 \033[38;5;211m
+GREEN			= 	\033[38;5;72m
+TURQ			= 	\033[38;5;37m
+WHITE			= 	\033[38;5;15m
+YELLOW			= 	\033[38;5;220m
+C				=	\033[38;5;
+O				=	37
+L				=	m
+SHIFT			=	$(eval O=$(shell echo $$((($(O)%13)+1))))
 
-LBOR	=	"▌│█║▌║▌║ "
-RBOR	= 	" ║▌║▌║█│▌"
+LBOR			=	"▌│█║▌║▌║ "
+RBOR			= 	" ║▌║▌║█│▌"
 
 all: submodule libft libmlx $(NAME)
 	@echo "$(CYAN)"
@@ -98,7 +98,7 @@ SUBMODULES_INITIALIZED := $(shell test -d $(LIBFT_DIR)/.git && test -d $(LIBMLX)
 
 submodule:
 ifeq ($(SUBMODULES_INITIALIZED),)
-	@echo "$(CYAN)$(LBOR) Initializing submodules... $(RBOR)$(WHITE)"
+	@echo "\n\n$(CYAN)$(LBOR) Initializing submodules... $(RBOR)$(WHITE)\n\n"
 	@git submodule update --init --recursive
 endif
 

@@ -1,25 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 10:11:03 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/16 12:16:29 by itsiros          ###   ########.fr       */
+/*   Created: 2025/05/16 16:44:40 by itsiros           #+#    #+#             */
+/*   Updated: 2025/05/16 16:50:51 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube3d.h"
 
-void	ft_error(char *error, bool mlx_err)
+char	*get_next_line(int fd)
 {
-	write(2, BOLD RED, sizeof(BOLD RED) - 1);
-	if (error)
-		write(2, error, ft_strlen(error));
-	if (mlx_err)
-		printf("%s", mlx_strerror(mlx_errno));
-	write(2, "\n", 1);
-	write(2, RESET, sizeof(RESET) - 1);
-	exit(EXIT_FAILURE);
+	static int	pos;
+	int			i;
+	static char	buffer[100];
+	char		line[516515];
+	static int	br;
+
+	i = 0;
+	while (1)
+	{
+		if (pos >= br)
+		{
+			br = read(fd, buffer, 100);
+			pos = 0;
+			if (br <= 0)
+				break ;
+		}
+		line[i++] = buffer[pos];
+		if (buffer[pos++] == '\n')
+			break ;
+	}
+	line[i] = '\0';
+	if (i == 0)
+		return (NULL);
+	return (ft_strdup(line));
 }
