@@ -1,10 +1,10 @@
 
-NAME			=	Cube3D
+NAME			=	cub3D
 # BONUS_NAME		=	_bonus
 
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -Wunreachable-code -Ofast -g -MMD #-fsanitize=address -fno-omit-frame-pointer
-MLXFLAGS		=	-DDEBUG=1 -DGLFW_FETCH=OFF
+MLXFLAGS		=	#-DDEBUG=1 -DGLFW_FETCH=OFF
 
 LIBFT_DIR		=	./libs/libft
 LIBMLX			=	./libs/MLX42
@@ -86,7 +86,7 @@ libft:
 	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
 
 $(NAME): $(OBJ)
-	@$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $(NAME)
+	@$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $(NAME) -fsanitize=address
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@

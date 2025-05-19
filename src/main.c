@@ -6,7 +6,7 @@
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/16 19:01:57 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/05/19 12:57:01 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ int32_t	main(int ac, char **av)
 {
 	t_data	data;
 
-	init_cube(ac, av);
+	init_cube(ac, av, &data);
+	pause();
 	init_mlx(&data);
-	// Even after the image is being displayed, we can still modify the buffer.
+// Even after the image is being displayed, we can still modify the buffer.
 	mlx_put_pixel(data.image, 0, 0, 0xFF0000FF);
 	// Register a hook and pass mlx as an optional param.
 	// NOTE: Do this before calling mlx_loop!	
