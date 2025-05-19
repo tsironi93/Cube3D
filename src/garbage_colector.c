@@ -6,11 +6,11 @@
 /*   By: ckappe <ckappe@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:26:35 by itsiros           #+#    #+#             */
-/*   Updated: 2025/04/26 12:21:22 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/05/19 13:06:47 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../cube3d.h"
 
 void	gc_mark_all(t_gc *gc)
 {

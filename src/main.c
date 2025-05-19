@@ -6,7 +6,7 @@
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/19 12:57:01 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/05/19 17:44:41 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	init_mlx(t_data *data)
 	mlx_set_setting(MLX_FULLSCREEN, true);
 	data->mlx = mlx_init(data->width, data->height, "Cube3D", true);
 	if (!data->mlx)
-		ft_error(NULL, true);
+		ft_error(data, NULL, true);
 	data->image = mlx_new_image(data->mlx, data->width, data->height);
 	if (!data->image || (mlx_image_to_window(data->mlx, data->image, 0, 0) < 0))
-		ft_error(NULL, true);
+		ft_error(data, NULL, true);
 }
 
 int32_t	main(int ac, char **av)
@@ -40,5 +40,6 @@ int32_t	main(int ac, char **av)
 	mlx_loop_hook(data.mlx, ft_hook_keys, &data);
 	mlx_loop(data.mlx);
 	mlx_terminate(data.mlx);
+	gc_collect(&data.gc);
 	return (EXIT_SUCCESS);
 }

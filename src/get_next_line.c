@@ -6,13 +6,13 @@
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:44:40 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/16 16:50:51 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/05/19 13:04:09 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube3d.h"
 
-char	*get_next_line(int fd)
+char	*get_next_line(t_data *data, int fd)
 {
 	static int	pos;
 	int			i;
@@ -37,5 +37,5 @@ char	*get_next_line(int fd)
 	line[i] = '\0';
 	if (i == 0)
 		return (NULL);
-	return (ft_strdup(line));
+	return (gc_strdup(&data->gc, line));
 }

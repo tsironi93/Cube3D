@@ -6,11 +6,12 @@
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/19 12:58:18 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/05/19 17:49:28 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube3d.h"
+#include <stdio.h>
 
 static void	texture_and_colors(t_data *data, char *line, t_map_data ref)
 {
@@ -20,73 +21,59 @@ static void	texture_and_colors(t_data *data, char *line, t_map_data ref)
 	printf(BOLD YELLOW);
 	if (ref == NORTH_TEXTURE)
 	{
-		printf("NORTH_TEXTURE\t: %s", line);
-		data->north_texture = ft_strdup(line);
+		printf("NORTH_TEXTURE\t: %s\n", line);
+		data->north_texture = gc_strdup(&data->gc, line);
 	}
-	if (ref == SOUTH_TEXTURE)
+	else if (ref == SOUTH_TEXTURE)
 	{
-		printf("SOUTH_TEXTURE\t: %s", line);
-		data->south_texture = ft_strdup(line);
+		printf("SOUTH_TEXTURE\t: %s\n", line);
+		data->south_texture = gc_strdup(&data->gc, line);
 	}
-	if (ref == WEST_TEXTURE)
+	else if (ref == WEST_TEXTURE)
 	{
-		printf("WEST_TEXTURE\t: %s", line);
-		data->west_texture = ft_strdup(line);
+		printf("WEST_TEXTURE\t: %s\n", line);
+		data->west_texture = gc_strdup(&data->gc, line);
 	}
-	if (ref == EAST_TEXTURE)
+	else if (ref == EAST_TEXTURE)
 	{
-		printf("EAST_TEXTURE\t: %s", line);
-		data->east_texture = ft_strdup(line);
+		printf("EAST_TEXTURE\t: %s\n", line);
+		data->east_texture = gc_strdup(&data->gc, line);
 	}
-	if (ref == FLOOR_COLOR)
+	else if (ref == FLOOR_COLOR)
 	{
-		printf("FLOOR_COLOR\t: %s", line);
+		printf("FLOOR_COLOR\t: %s\n", line);
 		data->floor_color = ft_split(line, ',');
 	}
-	if (ref == CEILING_COLOR)
+	else if (ref == CEILING_COLOR)
 	{
-		printf("CEILING_COLOR\t: %s", line);
+		printf("CEILING_COLOR\t: %s\n", line);
 		data->ceiling_color = ft_split(line, ',');
 	}
 	printf(RESET);
 }
 
-static bool	validate_syntax(char *line)
+static bool	validate_syntax(char **map)
 {
-	static int	i;
+	int	i;
+	int	j;
 
-	printf(BOLD GREEN "%s", line);
-	if (i == 0)
+	i = -1;
+	while (map[++i])
 	{
-		while (*line)
+		j = -1;
+		while (map[i][++j])
 		{
-			if (*line != '1' && *line != ' ' && *line != '\n')
-			{
-				printf("ERROR in line :%s at position: '%c'\n", line, *line);
+			if (map[i][j] != '0' && map[i][j] != '1' && map[i][j] != ' '
+				&& map[i][j] != 'N' && map[i][j] != 'S' && map[i][j] != 'E'
+				&& map[i][j] != 'W')
 				return (false);
-			}
-			line++;
 		}
 	}
-	else
-	{
-		while (*line)
-		{
-			if (*line != '1' && *line != '0' && *line != 'N' && *line != 'S'
-				&& *line != 'E' && *line != 'W' && *line != ' '
-				&& *line != '\n')
-			{
-				printf("ERROR in line :%s\n", line);
-				return (false);
-			}
-			line++;
-		}
-	}
-	i++;
+	printf (BOLD YELLOW "Syntax validation succeeded!!\n" RESET);
 	return (true);
 }
 
-static void	fetch_map(char *line, char ***map)
+static void	fetch_map(t_data *data, char *line, char ***map)
 {
 	static char	*map_buffer[1024];
 	static int	i;
@@ -98,17 +85,19 @@ static void	fetch_map(char *line, char ***map)
 		return ;
 	if (!line && i != 0)
 	{
-		*map = malloc((i + 1) * sizeof(char *));
+		*map = gc_malloc(&data->gc, (i + 1) * sizeof(char *));
 		while (++j < i)
-			(*map)[j] = ft_strdup(map_buffer[j]);
+		{
+			(*map)[j] = gc_strdup(&data->gc, map_buffer[j]);
+			printf("%s\n", (*map)[j]);
+		}
 		(*map)[j] = NULL;
 		i = -1;
 	}
 	else
 	{
 		new_line = ft_strtrim(line, "\n");
-		map_buffer[i] = new_line;
-		i++;
+		map_buffer[i++] = new_line;
 	}
 }
 
@@ -118,38 +107,76 @@ static void	validate_file(int fd, t_data *data)
 
 	while (MALAKA)
 	{
-		line = get_next_line(fd);
+		line = get_next_line(data, fd);
 		if (!line)
 			break ;
 		if (!ft_strcmp(line, "\n"))
-		{
-			free (line);
 			continue ;
-		}
-		while (ft_isspace(*line))
-			line++;
 		if (ft_strnstr(line, "NO", ft_strlen(line)))
 			texture_and_colors(data, ft_strnstr(line, "NO",
-					sizeof(line)) + 2, NORTH_TEXTURE);
+					ft_strlen(line)) + 2, NORTH_TEXTURE);
 		else if (ft_strnstr(line, "SO", ft_strlen(line)))
 			texture_and_colors(data, ft_strnstr(line, "SO",
-					sizeof(line)) + 2, SOUTH_TEXTURE);
+					ft_strlen(line)) + 2, SOUTH_TEXTURE);
 		else if (ft_strnstr(line, "WE", ft_strlen(line)))
 			texture_and_colors(data, ft_strnstr(line, "WE",
-					sizeof(line)) + 2, WEST_TEXTURE);
+					ft_strlen(line)) + 2, WEST_TEXTURE);
 		else if (ft_strnstr(line, "EA", ft_strlen(line)))
 			texture_and_colors(data, ft_strnstr(line, "EA",
-					sizeof(line)) + 2, EAST_TEXTURE);
+					ft_strlen(line)) + 2, EAST_TEXTURE);
 		else if (ft_strnstr(line, "F", ft_strlen(line)))
 			texture_and_colors(data, ft_strnstr(line, "F",
-					sizeof(line)) + 1, FLOOR_COLOR);
+					ft_strlen(line)) + 1, FLOOR_COLOR);
 		else if (ft_strnstr(line, "C", ft_strlen(line)))
 			texture_and_colors(data, ft_strnstr(line, "C",
-					sizeof(line)) + 1, CEILING_COLOR);
+					ft_strlen(line)) + 1, CEILING_COLOR);
 		else
-			fetch_map(line, &data->map);
-		free(line);
+			fetch_map(data, line, &data->map);
 	}
+}
+
+static void	find_player_pos(t_data *data, char **map)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+		{
+			if (map[i][j] == 'N' || map[i][j] == 'E' || map[i][j] == 'W'
+				|| map[i][j] == 'W')
+			{
+				data->player_pos[0] = i;
+				data->player_pos[1] = j;
+				return ;
+			}
+		}
+	}
+	ft_error(data, "No Player found in the map", false);
+}
+
+static bool	flood_check(t_data *data, char **map, int y, int x)
+{
+	char	tile;
+
+	if (y < 0 || x < 0 || !map[y][x])
+	{
+		ft_error(data, "Map is not surrounded by walls", false);
+		return (false);
+	}
+	tile = map[y][x];
+	if (tile == ' ' || tile == '\0')
+		ft_error(data, "Map is not surrounded by walls", false);
+	if (tile == '1' || tile == 'F')
+		return (true);
+	map[y][x] = 'F';
+	return (flood_check(data, map, y + 1, x)
+		&& flood_check(data, map, y - 1, x)
+		&& flood_check(data, map, y, x + 1)
+		&& flood_check(data, map, y, x - 1));
 }
 
 void	init_cube(int ac, char **av, t_data *data)
@@ -157,16 +184,22 @@ void	init_cube(int ac, char **av, t_data *data)
 	int		fd;
 
 	if (ac != 2)
-		ft_error("Init error: The only parameter in Cube3D is a map", false);
+		ft_error(data, "Init error: The only parameter in Cube3D is a map",
+			false);
 	if (ft_strcmp(av[1] + (ft_strlen(av[1]) - 4), ".cub"))
-		ft_error("Init error: Invalid map file", false);
+		ft_error(data, "Init error: Invalid map file", false);
 	data->gc = gc_new();
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
-		ft_error("Init error: Cant open map or file doesnt exist", false);
+		ft_error(data, "Init error: Cant open map or file doesnt exist", false);
 	validate_file(fd, data);
-	if (!validate_syntax(NULL))
-		ft_error("Wrong characters found in the map", false);
-	printf (BOLD YELLOW "Syntax validation succeeded!!\n" RESET);
+	fetch_map(data, NULL, &data->map);
+	if (!validate_syntax(data->map))
+		ft_error(data, "Wrong characters found in the map", false);
+	find_player_pos(data, data->map);
+	flood_check(data, data->map, data->player_pos[0], data->player_pos[1]);
+	int i = -1;
+	while (data->map[++i])
+		printf("%s\n",data->map[i]);
 	close(fd);
 }

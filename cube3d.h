@@ -6,7 +6,7 @@
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/19 13:01:05 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/05/19 15:21:56 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,13 @@ typedef struct s_data
 	char		*east_texture;
 	char		**floor_color;
 	char		**ceiling_color;
+	int			player_pos[2];
 	t_gc		gc;
 }	t_data;
 
 //==================================UTILS=======================================
 
-char	*get_next_line(int fd);
+char	*get_next_line(t_data *data, int fd);
 int		ft_isspace(int c);
 
 //================================VALIDATION====================================
@@ -82,7 +83,7 @@ void	init_cube(int ac, char **av, t_data *data);
 
 //==================================ERROR=======================================
 
-void	ft_error(char *error, bool mlx_err);
+void	ft_error(t_data *data, char *error, bool mlx_err);
 
 //=================================COLORS=======================================
 
