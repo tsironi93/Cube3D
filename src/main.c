@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/19 17:44:41 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/05/27 18:57:40 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int32_t	main(int ac, char **av)
 	t_data	data;
 
 	init_cube(ac, av, &data);
-	pause();
+	// pause();
 	init_mlx(&data);
 // Even after the image is being displayed, we can still modify the buffer.
 	mlx_put_pixel(data.image, 0, 0, 0xFF0000FF);
