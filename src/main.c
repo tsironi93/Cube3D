@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/27 18:57:40 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:45:03 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	init_mlx(t_data *data)
 {
-	data->width = 2880;
-	data->height = 1620;
+	data->width = 1080;
+	data->height = 720;
 	mlx_set_setting(MLX_FULLSCREEN, true);
 	data->mlx = mlx_init(data->width, data->height, "Cube3D", true);
 	if (!data->mlx)
@@ -27,9 +27,13 @@ static void	init_mlx(t_data *data)
 
 int32_t	main(int ac, char **av)
 {
-	t_data	data;
+	t_data		data;
+	t_ray		ray;
+	t_vector	vec;
 
 	init_cube(ac, av, &data);
+	setup_player(&data, &vec);
+	raycasting(&data, &ray, &vec); // TODO: move
 	// pause();
 	init_mlx(&data);
 // Even after the image is being displayed, we can still modify the buffer.

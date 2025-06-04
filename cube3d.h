@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/19 15:21:56 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:49:21 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include "./libs/MLX42/include/MLX42/MLX42.h"
 # include "./libs/libft/libft.h"
+# include <math.h>
 
 //=====ASCII COLORS======
 # define RED     "\x1b[31m"
@@ -68,9 +69,36 @@ typedef struct s_data
 	char		*east_texture;
 	char		**floor_color;
 	char		**ceiling_color;
-	int			player_pos[2];
+	double		player_pos[2]; // change to double (for raycasting precision)
 	t_gc		gc;
 }	t_data;
+
+typedef struct s_vector
+{
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+}	t_vector;
+
+// all variables needed for each ray to cast from the player’s view.
+// TODO: initialize!
+typedef struct s_ray
+{
+	// for ray position & direction
+	double	camera_x; // camera space
+	double	ray_dir_x;
+	double	ray_dir_y;
+
+	// length of ray from current position to next x or y-side
+	double	dist_pos_to_x; // TODO: check naming
+	double	dist_pos_to_y;
+
+	// length of ray from one x or y-side to next x or y-side
+	double	dist_next_xgrid; // deltaDistX
+	double	dist_next_ygrid; // deltaDistY
+
+}	t_ray;
 
 //==================================UTILS=======================================
 
@@ -110,5 +138,11 @@ char	*gc_strjoin(t_gc *gc, char *s1, char *s2);
 //=================================DEBUG========================================
 
 void	d(void);
+
+
+
+void	setup_player(t_data *data, t_vector *vec);
+void	raycasting(t_data *data, t_ray *ray, t_vector *vec);
+
 
 #endif // !CUBE3D_H
