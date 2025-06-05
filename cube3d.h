@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/04 15:49:21 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:54:46 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ typedef struct s_data
 
 typedef struct s_vector
 {
+	int		grid_map_x; // which box/grid of the map player is currently in
+	int		grid_map_y;
 	double	dir_x;
 	double	dir_y;
 	double	plane_x;
@@ -85,18 +87,25 @@ typedef struct s_vector
 // TODO: initialize!
 typedef struct s_ray
 {
-	// for ray position & direction
+	// for ray position & direction 
+	// (init done in ft)
 	double	camera_x; // camera space
 	double	ray_dir_x;
 	double	ray_dir_y;
 
-	// length of ray from current position to next x or y-side
-	double	dist_pos_to_x; // TODO: check naming
-	double	dist_pos_to_y;
+	// length of ray from current position to next x or y-side / tile edge
+	// TODO: rename
+	double	side_dist_x; // how far to the next vertical line (like walking east/west)
+	double	side_dist_y; // how far to the next horizontal line (like walking north/south).
 
 	// length of ray from one x or y-side to next x or y-side
-	double	dist_next_xgrid; // deltaDistX
-	double	dist_next_ygrid; // deltaDistY
+	// (init done in ft)
+	double	delta_dist_x; // dist_next_xgrid TODO: rename later
+	double	delta_dist_y; // dist_next_ygrid
+
+	// which direction ray is stepping in grid (either +1 or -1)
+	int		step_x;
+	int		step_y;
 
 }	t_ray;
 
@@ -139,10 +148,10 @@ char	*gc_strjoin(t_gc *gc, char *s1, char *s2);
 
 void	d(void);
 
-
+//==================================RAYCASTING==================================
 
 void	setup_player(t_data *data, t_vector *vec);
-void	raycasting(t_data *data, t_ray *ray, t_vector *vec);
+void	raycasting(t_data *data, t_vector *vec);
 
 
 #endif // !CUBE3D_H
