@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:14:16 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/16 10:15:18 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/06 18:14:06 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube3d.h"
+#include "../includes/cube3d.h"
 
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {

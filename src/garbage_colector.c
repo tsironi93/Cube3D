@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_colector.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckappe <ckappe@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:26:35 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/19 13:06:47 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/06 18:15:17 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube3d.h"
+#include "../includes/cube3d.h"
 
 void	gc_mark_all(t_gc *gc)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   gc_wrappers.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckappe <ckappe@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 11:47:25 by ckappe            #+#    #+#             */
-/*   Updated: 2025/05/19 13:07:33 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/06 18:15:23 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube3d.h"
+#include "../includes/cube3d.h"
 
 void	gc_add_root(t_gc *gc, void **ptr)
 {

@@ -6,11 +6,12 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/05 20:55:53 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:36:15 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube3d.h"
+#include "../includes/cube3d.h"
+#include "../includes/raycasting.h"
 
 // NOTES:
 // seperate variables for x and y?
@@ -36,43 +37,32 @@ void	setup_player(t_data *data, t_vector *vec)
 	vec->plane_y = 0;
 }
 
-// setup/calculate ray position and direction for each column at every frame
-// creates a set of rays fanning out 
-//    from the player's position to simulate the 3D perspective.
-// -> cast a ray for every pixel of the screens width
-// initializing part of ray struct
+/*
+setup/calculate ray position and direction for each column at every frame
+creates a set of rays fanning out 
+    from the player's position to simulate the 3D perspective.
+-> cast a ray for every pixel of the screens width
+initializing part of ray struct
+*/
+/*
+deltaDistX: distance ray has to travel from 1 x-side to the next x-side, 
+deltaDistY: from 1 y-side to the next y-side.
+to travel to cross one full tile along the grid 
+ -> makes sure to always step forward in distance 
+initializing part of ray struct
+setup grid stepping distances at per-ray (per column)
+fabs: returns absolute value of a double
+*/
 void	calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 {
-	// int screen_x; // moves across horizontally
-
-	// screen_x = 0;
-	// while (screen_x < data->width)
-	// {
 	ray->camera_x = 2 * screen_x / data->width - 1;
 	ray->ray_dir_x = vec->dir_x + vec->plane_x * ray->camera_x;
 	ray->ray_dir_y = vec->dir_y + vec->plane_y * ray->camera_x;
-		// screen_x++;
-	// }
+
 	// 	* derived from pythagoras theorem
 	ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
 	ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
 }
-
-// check rays for horizontal line X
-// check rays for vertical line Y
-// deltaDistX: distance ray has to travel from 1 x-side to the next x-side, 
-// deltaDistY: from 1 y-side to the next y-side.
-// to travel to cross one full tile along the grid 
-// -> makes sure to always step forward in distance 
-// initializing part of ray struct
-// setup grid stepping distances at per-ray (per column)
-// fabs: returns absolute value of a double
-// void	draw_rays_3d(t_ray *ray)
-// {
-// 	ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
-// 	ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
-// }
-
 
 //  *calculate step and initial sideDist*
 // calculate side_dist_x & y
@@ -120,34 +110,57 @@ variables
 		-> set to 0, if x-side hit
 		-> set to 1, if y-side ht
 */
-void run_dda_algorithm(t_ray *ray, t_vector *vec)
+void run_dda_algorithm(t_data *data, t_ray *ray, t_vector *vec)
 {
-	bool hit;
-	int side;
+	(void) data;
+	bool ray_hit_wall;
 
-	hit = false; // no hit (0)
-	while (hit == false)
+	ray_hit_wall = false;
+	while (ray_hit_wall == false)
 	{
 		// goes to next map grid (x-direction or y-direction)
 		if (ray->side_dist_x < ray->side_dist_y)
         {
-			ray->side_dist_x += ray->delta_dist_x;
-          	vec->grid_map_x += ray->step_x;
-          	side = 0;
+			ray->side_dist_x = ray->side_dist_x + ray->delta_dist_x;
+			vec->grid_map_x = vec->grid_map_x + ray->step_x;
+			ray->wall_side = EAST_WEST;
         }
         else
         {
-			ray->side_dist_y += ray->delta_dist_y;
-          	vec->grid_map_y += ray->step_y;
-          	side = 1;
+			ray->side_dist_y = ray->side_dist_y + ray->delta_dist_y;
+			vec->grid_map_y = vec->grid_map_y + ray->step_y;
+			ray->wall_side = NORTH_SOUTH;
         }
-		// TODO: check whether or not the ray has hit a wall		
+		// ex.: x = 2, y = 4 coordinates -> may land on grid/tile that contains a 1 (= a wall)
+		// if 0, then not a wall
+		if (data->map[vec->grid_map_x][vec->grid_map_y] > 0) // TODO: fix segfault bc of map array
+			ray_hit_wall = true;
 	}
 }
 
+/*
+camera plane vector
+- calculate distance of the ray to the wall
+	-> to calculate how high the wall has to be drawn after
+- to eliminate fish eye effect: calc distance from plane to wall, NOT player to wall
+- dist_camvec_wall: distance btw wall and camera vector
+*/ 
+void calc_wall_height(t_ray *ray)
+{
+	double dist_camvec_wall; // TODO: in struct?
+	
+	if (ray->wall_side == EAST_WEST)
+	{
+		dist_camvec_wall = ray->side_dist_x - ray->delta_dist_x;
+	}
+	else
+	{
+		dist_camvec_wall = ray->side_dist_y - ray->delta_dist_y;
+	}
+}
 
-// put this in a loop within the ft
 // gameloop starts (raycast inside)
+// TODO: add return value
 void	raycasting(t_data *data, t_vector *vec)
 {
 	t_ray ray;
@@ -158,12 +171,15 @@ void	raycasting(t_data *data, t_vector *vec)
 	{
 		// init structs (vec & ray)
 		calc_ray_pos_dir(data, &ray, vec, screen_x);
-		// draw_rays_3d(&ray);
 		prepare_dda(data, &ray, vec);
-		// TODO: DDA loop to find wall
-		run_dda_algorithm(&ray, vec);
-		// TODO: calculate wall height (camera plan vector)
-		// TODO: draw vertical line (image scaling & transformation for MLX)
+		// DDA loop to find wall
+		run_dda_algorithm(data, &ray, vec);
+		// calculate wall height (camera plan vector)
+		calc_wall_height(&ray);
+		// TODO: draw vertical line (image scaling & transformation for MLX) (textures)
 		screen_x++;
 	}
 }
+
+
+// FEAT(raycasting): added wall hit check of ray in run_dda_algorithm && implemented calc_wall_height
