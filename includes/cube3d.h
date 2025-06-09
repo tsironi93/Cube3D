@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/06 18:36:58 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:59:32 by pauladretta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,22 @@ typedef struct s_gc
 
 typedef struct s_data
 {
-	mlx_t		*mlx;
-	mlx_image_t	*image;
-	int32_t		height;
-	int32_t		width;
-	char		**map;
-	char		*north_texture;
-	char		*south_texture;
-	char		*west_texture;
-	char		*east_texture;
-	char		**floor_color;
-	char		**ceiling_color;
-	double		player_pos[2]; // change to double (for raycasting precision)
-	t_gc		gc;
-}	t_data;
+    mlx_t       *mlx;
+    mlx_image_t *image;
+    int32_t     height;
+    int32_t     width;
+    char        **map;
+    char        *north_texture;
+    char        *south_texture;
+    char        *west_texture;
+    char        *east_texture;
+    char        **floor_color;
+    char        **ceiling_color;
+    double      player_pos[2]; // change to double (for raycasting precision)
+    int         map_width; // y // NEW (paula)
+    int         map_height; // x // NEW (paula)
+    t_gc        gc;
+}   t_data;
 
 //==================================UTILS=======================================
 

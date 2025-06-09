@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/06 18:16:30 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:43:53 by pauladretta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,32 +72,33 @@ static bool	validate_syntax(char **map)
 	return (true);
 }
 
-static void	fetch_map(t_data *data, char *line, char ***map)
+static void fetch_map(t_data *data, char *line, char ***map)
 {
-	static char	*map_buffer[1024];
-	static int	i;
-	int			j;
-	char		*new_line;
+    static char *map_buffer[1024];
+    static int  i;
+    int         j;
+    char        *new_line;
 
-	j = -1;
-	if ((!line && i == 0) || i < 0)
-		return ;
-	if (!line && i != 0)
-	{
-		*map = gc_malloc(&data->gc, (i + 1) * sizeof(char *));
-		while (++j < i)
-		{
-			(*map)[j] = gc_strdup(&data->gc, map_buffer[j]);
-			printf("%s\n", (*map)[j]);
-		}
-		(*map)[j] = NULL;
-		i = -1;
-	}
-	else
-	{
-		new_line = ft_strtrim(line, "\n");
-		map_buffer[i++] = new_line;
-	}
+    j = -1;
+    if ((!line && i == 0) || i < 0)
+    return ;
+    if (!line && i != 0)
+    {
+        *map = gc_malloc(&data->gc, (i + 1) * sizeof(char *));
+        while (++j < i)
+        {
+            (*map)[j] = gc_strdup(&data->gc, map_buffer[j]);
+            printf("%s\n", (*map)[j]);
+        }
+        (*map)[j] = NULL;
+        data->map_height = j; // NEW (paula)
+        i = -1;
+    }
+    else
+    {
+        new_line = ft_strtrim(line, "\n");
+        map_buffer[i++] = new_line;
+    }
 }
 
 static void	validate_file(int fd, t_data *data)
