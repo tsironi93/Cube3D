@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/10 15:32:16 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:32:37 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ static void fetch_map(t_data *data, char *line, char ***map)
 			(*map)[j][max_len] = '\0';
 		}
 		(*map)[j] = NULL;
+		// data->map_height = j; // NEW (paula)
 		i = -1;
 	}
 	else
