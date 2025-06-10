@@ -6,7 +6,7 @@
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/19 17:49:28 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:35:32 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static bool	validate_syntax(char **map)
 			if (map[i][j] != '0' && map[i][j] != '1' && map[i][j] != ' '
 				&& map[i][j] != 'N' && map[i][j] != 'S' && map[i][j] != 'E'
 				&& map[i][j] != 'W')
-				return (false);
+				return (printf(BOLD YELLOW "\n Error found in :%s line %d\n", map[i], i), false);
 		}
 	}
 	printf (BOLD YELLOW "Syntax validation succeeded!!\n" RESET);
@@ -75,10 +75,11 @@ static bool	validate_syntax(char **map)
 
 static void	fetch_map(t_data *data, char *line, char ***map)
 {
-	static char	*map_buffer[1024];
-	static int	i;
-	int			j;
-	char		*new_line;
+	static char		*map_buffer[1024];
+	static int		i;
+	int				j;
+	char			*new_line;
+	static size_t	max_len;
 
 	j = -1;
 	if ((!line && i == 0) || i < 0)
@@ -88,8 +89,10 @@ static void	fetch_map(t_data *data, char *line, char ***map)
 		*map = gc_malloc(&data->gc, (i + 1) * sizeof(char *));
 		while (++j < i)
 		{
-			(*map)[j] = gc_strdup(&data->gc, map_buffer[j]);
-			printf("%s\n", (*map)[j]);
+			(*map)[j] = gc_malloc(&data->gc, max_len + 1);
+			ft_memset((*map)[j], ' ', max_len);
+			ft_memcpy((*map)[j], map_buffer[j], ft_strlen(map_buffer[j]));
+			(*map)[j][max_len] = '\0';
 		}
 		(*map)[j] = NULL;
 		i = -1;
@@ -97,8 +100,14 @@ static void	fetch_map(t_data *data, char *line, char ***map)
 	else
 	{
 		new_line = ft_strtrim(line, "\n");
+		if (max_len < ft_strlen(new_line))
+			max_len = ft_strlen(new_line);
 		map_buffer[i++] = new_line;
+		printf("bufferLine : %s\n", map_buffer[i - 1]);
 	}
+	// i = -1;
+	// while (data->map[++i])
+	// 	printf("%s\n", data->map[i]);
 }
 
 static void	validate_file(int fd, t_data *data)
@@ -147,7 +156,7 @@ static void	find_player_pos(t_data *data, char **map)
 		while (map[i][++j])
 		{
 			if (map[i][j] == 'N' || map[i][j] == 'E' || map[i][j] == 'W'
-				|| map[i][j] == 'W')
+				|| map[i][j] == 'S')
 			{
 				data->player_pos[0] = i;
 				data->player_pos[1] = j;
@@ -156,6 +165,22 @@ static void	find_player_pos(t_data *data, char **map)
 		}
 	}
 	ft_error(data, "No Player found in the map", false);
+}
+
+static char	**clone_map(t_data *data, char **map)
+{
+	char	**clone;
+	int		i;
+
+	i = 0;
+	while (map[i])
+		i++;
+	clone = gc_malloc(&data->gc, (i + 1) * sizeof(char *));
+	i = -1;
+	while (map[++i])
+		clone[i] = gc_strdup(&data->gc, map[i]);
+	clone[i] = NULL;
+	return (clone);
 }
 
 static bool	flood_check(t_data *data, char **map, int y, int x)
@@ -197,9 +222,6 @@ void	init_cube(int ac, char **av, t_data *data)
 	if (!validate_syntax(data->map))
 		ft_error(data, "Wrong characters found in the map", false);
 	find_player_pos(data, data->map);
-	flood_check(data, data->map, data->player_pos[0], data->player_pos[1]);
-	int i = -1;
-	while (data->map[++i])
-		printf("%s\n",data->map[i]);
+	flood_check(data, clone_map(data, data->map), data->player_pos[0], data->player_pos[1]);
 	close(fd);
 }
