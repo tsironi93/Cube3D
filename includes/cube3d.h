@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/05/19 15:21:56 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/09 21:59:32 by pauladretta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include "./libs/MLX42/include/MLX42/MLX42.h"
-# include "./libs/libft/libft.h"
+# include "../libs/MLX42/include/MLX42/MLX42.h"
+# include "../libs/libft/libft.h"
+# include <math.h>
 
 //=====ASCII COLORS======
 # define RED     "\x1b[31m"
@@ -57,20 +58,22 @@ typedef struct s_gc
 
 typedef struct s_data
 {
-	mlx_t		*mlx;
-	mlx_image_t	*image;
-	int32_t		height;
-	int32_t		width;
-	char		**map;
-	char		*north_texture;
-	char		*south_texture;
-	char		*west_texture;
-	char		*east_texture;
-	char		**floor_color;
-	char		**ceiling_color;
-	int			player_pos[2];
-	t_gc		gc;
-}	t_data;
+    mlx_t       *mlx;
+    mlx_image_t *image;
+    int32_t     height;
+    int32_t     width;
+    char        **map;
+    char        *north_texture;
+    char        *south_texture;
+    char        *west_texture;
+    char        *east_texture;
+    char        **floor_color;
+    char        **ceiling_color;
+    double      player_pos[2]; // change to double (for raycasting precision)
+    int         map_width; // y // NEW (paula)
+    int         map_height; // x // NEW (paula)
+    t_gc        gc;
+}   t_data;
 
 //==================================UTILS=======================================
 

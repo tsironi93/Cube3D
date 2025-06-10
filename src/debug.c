@@ -1,5 +1,5 @@
 
-#include "../cube3d.h"
+#include "../includes/cube3d.h"
 
 void	d(void)
 {

@@ -86,7 +86,9 @@ libft:
 	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
 
 $(NAME): $(OBJ)
-	@$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $(NAME) -fsanitize=address
+	@$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $(NAME) 
+
+#-fsanitize=address
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@

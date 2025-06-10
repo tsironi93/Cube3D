@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/10 13:06:09 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/10 15:36:34 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube3d.h"
+#include "../includes/cube3d.h"
+#include "../includes/raycasting.h"
 
 static void	init_mlx(t_data *data)
 {
@@ -42,11 +43,15 @@ static void	init_mlx(t_data *data)
 
 int32_t	main(int ac, char **av)
 {
-	t_data	data;
+	t_data		data;
+	t_vector	vec;
 
 	init_cube(ac, av, &data);
+	setup_player(&data, &vec);
+	// pause();
 	init_mlx(&data);
-// Even after the image is being displayed, we can still modify the buffer.
+	// Even after the image is being displayed, we can still modify the buffer.
+	raycasting(&data, &vec); // TODO: move (init & gameloop starts here)
 	mlx_put_pixel(data.image, 0, 0, 0xFF0000FF);
 	// Register a hook and pass mlx as an optional param.
 	// NOTE: Do this before calling mlx_loop!	

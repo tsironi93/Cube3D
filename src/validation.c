@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/04 15:35:32 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/10 15:32:16 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube3d.h"
-#include <stdio.h>
+#include "../includes/cube3d.h"
 
 static void	texture_and_colors(t_data *data, char *line, t_map_data ref)
 {
@@ -73,7 +72,7 @@ static bool	validate_syntax(char **map)
 	return (true);
 }
 
-static void	fetch_map(t_data *data, char *line, char ***map)
+static void fetch_map(t_data *data, char *line, char ***map)
 {
 	static char		*map_buffer[1024];
 	static int		i;
