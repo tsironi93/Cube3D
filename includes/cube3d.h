@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/11 11:15:01 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/11 18:57:46 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <math.h>
 # include "../libs/MLX42/include/MLX42/MLX42.h"
 # include "../libs/libft/libft.h"
-# include <math.h>
+# include "../includes/raycasting.h"
 
 //=====ASCII COLORS======
 # define RED     "\x1b[31m"
@@ -57,6 +58,16 @@ typedef struct s_gc
 	int		root_count;
 }	t_gc;
 
+// typedef struct s_render
+// {
+// 	double	pos_x;	//Starting pos in x axis
+// 	double	pos_y;	//Starting pos in y axis
+// 	double	dir_x;	//Starting dir in x axis
+// 	double	dir_y;	//Starting dir in y axis
+// 	double	camera_plane_x;
+// 	double	camera_plane_y;
+// }	t_render;
+
 typedef struct s_player
 {
 	float	player_pos_x;
@@ -70,6 +81,7 @@ typedef struct s_data
 {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
+	// t_render	*render;
 	int32_t		height;
 	int32_t		width;
 	char		**map;
@@ -79,10 +91,15 @@ typedef struct s_data
 	char		*east_texture;
 	char		**floor_color;
 	char		**ceiling_color;
-	double		player_pos[2]; // change to double (for raycasting precision)
-	int			map_width; // y // NEW (paula)
-	int			map_height; // x // NEW (paula)
+    int         map_width;    
+    int         map_height;
+	int			player_pos[2];
+	float		player_ofset_x;
+	float		player_ofset_y;
 	t_player	*player;
+    t_ray       *ray;
+    t_vector    *vec;
+	t_line 		*line; // new
 	t_gc		gc;
 }	t_data;
 
@@ -108,6 +125,7 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void	ft_randomize(void *param);
 void	render_player(void *param);
 void	render_direction_ray(void *param);
+void	render_raycasts(void *param);
 
 //=================================HOOKS========================================
 
@@ -127,4 +145,13 @@ char	*gc_strjoin(t_gc *gc, char *s1, char *s2);
 
 void	d(void);
 
+//===============================RAYCASTING=====================================
+
+void    setup_player(t_data *data);
+void    raycasting(void *param);
+void    render_frame(void *param);
+void 	init_structs(t_data *data);
+void 	draw_images(t_data *data);
+
 #endif // !CUBE3D_H
+ 

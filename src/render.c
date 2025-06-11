@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:15:44 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/11 11:20:34 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/11 18:56:11 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	render_direction_ray(void *param)
 	i = -1;
 	while (++i < length)
 	{
+		// printf("distance to wall = %f\n", data->ray->dist_camvec_wall);
 		draw_x = (int)roundf(x);
 		draw_y = (int)roundf(y);
 		if (draw_x >= 0 && draw_x < data->width
@@ -99,3 +100,14 @@ void	ft_randomize(void *param)
 		}
 	}
 }
+
+// MAIN. als gameloop
+// void render_frame(void *param)
+// {
+//     t_data	*data = (t_data *)param;
+	
+//     ft_randomize(data);
+//     raycasting(data);
+//     render_player(data);
+//     render_direction_ray(data);
+// }

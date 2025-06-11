@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:16:57 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/09 21:54:45 by pauladretta      ###   ########.fr       */
+/*   Updated: 2025/06/11 14:22:36 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@
 typedef enum s_wall_side
 {
     EAST_WEST,
-    NORTH_SOUTH
-}   t_wall_side;
+    NORTH_SOUTH,
+    NORTH,
+    EAST,
+    SOUTH,
+    WEST
+}   s_wall_side;
 
 typedef struct s_vector
 {
@@ -54,9 +58,19 @@ typedef struct s_ray
     double dist_camvec_wall;
 }   t_ray;
 
+typedef  struct  s_line
+{
+    int x;       // screen x coordinate
+    int y;       // current y position in draw loop
+    int y0;      // starting y position for drawing
+    int y1;      // ending y position for drawing
+    int tex_x;   // texture x coordinate
+    int tex_y;   // texture y coordinate
+} t_line;
+
 //==================================RAYCASTING==================================
 
-void    setup_player(t_data *data, t_vector *vec);
-void    raycasting(t_data *data, t_vector *vec);
+// void    setup_player(t_data *data);
+// void    raycasting(t_data *data);
 
 #endif

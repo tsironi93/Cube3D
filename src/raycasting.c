@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/11 11:10:14 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/11 18:55:26 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,18 @@ bool inside_of_walls(int x, int y, t_data *data)
 //  initial player setup (dir, plane, pos) at game start
 // (PLAYER FACES NORTH)
 // initialization (all others run in a per-ray, per-frame sense)
-void    setup_player(t_data *data, t_vector *vec)
+void    setup_player(t_data *data)
 {
     // starting position of player (X,Y)
     // which box of the map we're in
-    vec->grid_map_x = data->player_pos[0];
-    vec->grid_map_y = data->player_pos[1];
+    data->vec->grid_map_x = data->player_pos[0];
+    data->vec->grid_map_y = data->player_pos[1];
     // initial direction vector (X,Y)
-    vec->dir_x = 0;
-    vec->dir_y = -1;
+    data->vec->dir_x = 0;
+    data->vec->dir_y = -1;
     // camera FOV plane (X,Y)
-    vec->plane_x = 0.66;
-    vec->plane_y = 0;
+    data->vec->plane_x = 0.66;
+    data->vec->plane_y = 0;
 }
 
 /*
@@ -73,8 +73,13 @@ fabs: returns absolute value of a double
 void    calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 {
     ray->camera_x = 2 * screen_x / data->width - 1;
+    printf("ray->camera_x = %f\n", ray->camera_x); // 0
+    printf("screen_x = %d\n", screen_x);
     ray->ray_dir_x = vec->dir_x + vec->plane_x * ray->camera_x;
+    printf("ray_dir_x = %f\n", ray->ray_dir_x);
     ray->ray_dir_y = vec->dir_y + vec->plane_y * ray->camera_x;
+    printf("ray_dir_yw = %f\n", ray->ray_dir_x);
+    printf("vec->dir_y = %f\n", vec->dir_y);
     ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
     ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
 }
@@ -175,31 +180,70 @@ void calc_wall_height(t_ray *ray)
     if (ray->wall_side == EAST_WEST)
     {
         ray->dist_camvec_wall = ray->side_dist_x - ray->delta_dist_x;
+        // printf("dist wall0 = %f\n", ray->dist_camvec_wall);
     }
     else
     {
         ray->dist_camvec_wall = ray->side_dist_y - ray->delta_dist_y;
+        // printf("dist wall1 = %f\n", ray->dist_camvec_wall);
     }
 }
 
-// gameloop starts (raycast inside)
-// TODO: add return value
-void    raycasting(t_data *data, t_vector *vec)
+void    raycasting(void *param)
 {
-    t_ray ray;
+    t_data	*data = (t_data *)param;
+
+    // t_ray ray;
+    // t_vector vec;
+    
     int screen_x; // moves across horizontally
+    int line_height;
+    int draw_start;
+    int draw_end;
+    int screen_y;
 	
     screen_x = 0;
     while (screen_x < data->width)
     {
         // init structs (vec & ray)
-        calc_ray_pos_dir(data, &ray, vec, screen_x);
-        prepare_dda(data, &ray, vec);
+        calc_ray_pos_dir(data, data->ray, data->vec, screen_x);
+        prepare_dda(data, data->ray, data->vec);
         // DDA loop to find wall
-        run_dda_algorithm(data, &ray, vec);
+        run_dda_algorithm(data, data->ray, data->vec);
         // calculate wall height (camera plan vector)
-        calc_wall_height(&ray);
+        calc_wall_height(data->ray);
         // TODO: draw vertical line (image scaling & transformation for MLX) (textures)
+        // draw_images(data); 
+        
+        printf("dist wall = %f\n", data->ray->dist_camvec_wall);
+        line_height = data->height / data->ray->dist_camvec_wall;
+        draw_start = data->height / 2 - line_height / 2;
+        draw_end = data->height / 2 + line_height / 2;
+        
+        if (draw_start < 0)
+            draw_start = 0;
+        if (draw_end >= data->height)
+            draw_end = data->height - 1;
+
+        screen_y = 0;
+        while (screen_y < draw_start)
+        {
+            mlx_put_pixel(data->image, screen_x, screen_y,  ft_pixel(0, 255, 0, 255));
+            screen_y++;
+        }
+        screen_y = draw_start;
+        while (screen_y < draw_end)
+        {
+            mlx_put_pixel(data->image, screen_x, screen_y, 0x0000FFFF); // blue
+            screen_y++;
+        }
+        screen_y = draw_end;
+        while (screen_y < data->height)
+        {
+            mlx_put_pixel(data->image, screen_x, screen_y, ft_pixel(255, 0, 0, 255)); 
+            screen_y++;
+        }
+        
         screen_x++;
     }
 }
