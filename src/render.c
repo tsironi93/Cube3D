@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:15:44 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/10 15:34:44 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:20:34 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	ft_randomize(void *param)
 	t_data	*data;
 	int		i;
 	int		j;
-	int		color;
 
 	data = (t_data *)param;
 	i = -1;

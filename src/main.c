@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/10 15:36:34 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:18:50 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int32_t	main(int ac, char **av)
 	t_data		data;
 	t_vector	vec;
 
+	data.gc = gc_new();
 	init_cube(ac, av, &data);
 	setup_player(&data, &vec);
 	// pause();

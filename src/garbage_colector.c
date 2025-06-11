@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:26:35 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/06 18:15:17 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:20:10 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	gc_sweep(t_gc *gc)
 	t_gcobj	**cur;
 	t_gcobj	*unreached;
 
+	if (gc->objects == NULL)
+		return ;
 	cur = &gc->objects;
 	while (*cur)
 	{

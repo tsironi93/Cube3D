@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/10 15:32:37 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:18:29 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,6 @@ void	init_cube(int ac, char **av, t_data *data)
 			false);
 	if (ft_strcmp(av[1] + (ft_strlen(av[1]) - 4), ".cub"))
 		ft_error(data, "Init error: Invalid map file", false);
-	data->gc = gc_new();
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		ft_error(data, "Init error: Cant open map or file doesnt exist", false);

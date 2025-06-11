@@ -6,7 +6,7 @@
 /*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/09 21:59:32 by pauladretta      ###   ########.fr       */
+/*   Updated: 2025/06/11 11:15:01 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 //======DEFINE TRUTH=====
 # define MALAKA true
+# define PI 3.14159265358979323846
 
 typedef enum s_map_data
 {
@@ -56,24 +57,34 @@ typedef struct s_gc
 	int		root_count;
 }	t_gc;
 
+typedef struct s_player
+{
+	float	player_pos_x;
+	float	player_pos_y;
+	float	player_delta_x;
+	float	player_delta_y;
+	float	player_angle;
+}	t_player;
+
 typedef struct s_data
 {
-    mlx_t       *mlx;
-    mlx_image_t *image;
-    int32_t     height;
-    int32_t     width;
-    char        **map;
-    char        *north_texture;
-    char        *south_texture;
-    char        *west_texture;
-    char        *east_texture;
-    char        **floor_color;
-    char        **ceiling_color;
-    double      player_pos[2]; // change to double (for raycasting precision)
-    int         map_width; // y // NEW (paula)
-    int         map_height; // x // NEW (paula)
-    t_gc        gc;
-}   t_data;
+	mlx_t		*mlx;
+	mlx_image_t	*image;
+	int32_t		height;
+	int32_t		width;
+	char		**map;
+	char		*north_texture;
+	char		*south_texture;
+	char		*west_texture;
+	char		*east_texture;
+	char		**floor_color;
+	char		**ceiling_color;
+	double		player_pos[2]; // change to double (for raycasting precision)
+	int			map_width; // y // NEW (paula)
+	int			map_height; // x // NEW (paula)
+	t_player	*player;
+	t_gc		gc;
+}	t_data;
 
 //==================================UTILS=======================================
 
@@ -95,6 +106,8 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 //=================================RENDER=======================================
 
 void	ft_randomize(void *param);
+void	render_player(void *param);
+void	render_direction_ray(void *param);
 
 //=================================HOOKS========================================
 
