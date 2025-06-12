@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/11 18:55:26 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:52:09 by pauladretta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ fabs: returns absolute value of a double
 */
 void    calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 {
-    ray->camera_x = 2 * screen_x / data->width - 1;
+    ray->camera_x = 2 * screen_x / (double)data->width - 1;
     printf("ray->camera_x = %f\n", ray->camera_x); // 0
     printf("screen_x = %d\n", screen_x);
     ray->ray_dir_x = vec->dir_x + vec->plane_x * ray->camera_x;
