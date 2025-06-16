@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:15:44 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/11 18:56:11 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:18:11 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	render_direction_ray(void *param)
 	t_data	*data = (t_data *)param;
 	int		i, draw_x, draw_y;
 	float	x, y, dx, dy;
-	int		tile_height = data->height / 50;
+	int		tile_height = 16;
 	int		length = 50;  // how many steps to draw
 	
 	x = data->player->player_pos_x * tile_height + tile_height / 2.0f;
@@ -48,7 +48,7 @@ void	render_player(void *param)
 
 	i = -1;
 	data = (t_data *)param;
-	tile_height = data->height / 50;
+	tile_height = 16;
 	while (++i < tile_height)
 	{
 		j = -1;

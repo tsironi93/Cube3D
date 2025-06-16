@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/16 13:57:29 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:17:22 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,20 +148,20 @@ void run_dda_algorithm(t_data *data, t_ray *ray, t_vector *vec)
         // goes to next map grid (x-direction or y-direction)
         if (ray->side_dist_x < ray->side_dist_y)
         {
-            ray->side_dist_x = ray->side_dist_x + ray->delta_dist_x;
-            vec->grid_map_x = vec->grid_map_x + ray->step_x;
+            ray->side_dist_x += ray->delta_dist_x;
+            vec->grid_map_x += ray->step_x;
             ray->wall_side = EAST_WEST;
         }
         else
         {
-            ray->side_dist_y = ray->side_dist_y + ray->delta_dist_y; // 1
-            vec->grid_map_y = vec->grid_map_y + ray->step_y; // 0
+            ray->side_dist_y +=ray->delta_dist_y; // 1
+            vec->grid_map_y += ray->step_y; // 0
             ray->wall_side = NORTH_SOUTH;
         }
         if (is_map_coordinates(vec->grid_map_x, vec->grid_map_y, data) == true)
         {
             if (data->map[vec->grid_map_x][vec->grid_map_y] == '1')
-            {   
+            {
 				// printf("ray hit wall at x: %d, y: %d\n", vec->grid_map_x, vec->grid_map_y);
                 ray_hit_wall = true;
             }
