@@ -6,7 +6,7 @@
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/16 14:22:17 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/16 15:18:26 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,15 @@ typedef struct s_data
 	char		*east_texture;
 	char		**floor_color;
 	char		**ceiling_color;
-    int         map_width;    
-    int         map_height;
+	int			map_width;
+	int			map_height;
 	int			player_pos[2];
 	float		player_ofset_x;
 	float		player_ofset_y;
 	t_player	*player;
-    t_ray       *ray;
-    t_vector    *vec;
-	t_line 		*line; // new
+	t_ray		*ray;
+	t_vector	*vec;
+	t_line		*line;
 	t_gc		gc;
 }	t_data;
 
@@ -147,11 +147,10 @@ void	d(void);
 
 //===============================RAYCASTING=====================================
 
-void    setup_player(t_data *data);
-void    raycasting(void *param);
-void    render_frame(void *param);
-void 	init_structs(t_data *data);
-void 	draw_images(t_data *data);
+void	setup_player(t_data *data);
+void	raycasting(void *param);
+void	render_frame(void *param);
+void	init_structs(t_data *data);
+void	draw_images(t_data *data);
 
 #endif // !CUBE3D_H
- 

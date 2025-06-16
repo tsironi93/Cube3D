@@ -6,7 +6,7 @@
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:15:44 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/16 14:18:11 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/16 15:23:03 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,3 @@ void	ft_randomize(void *param)
 		}
 	}
 }
-
-// MAIN. als gameloop
-// void render_frame(void *param)
-// {
-//     t_data	*data = (t_data *)param;
-	
-//     ft_randomize(data);
-//     raycasting(data);
-//     render_player(data);
-//     render_direction_ray(data);
-// }
