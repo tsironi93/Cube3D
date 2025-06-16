@@ -6,7 +6,7 @@
 /*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/11 11:10:14 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:53:50 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,12 @@ fabs: returns absolute value of a double
 */
 void    calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 {
-    ray->camera_x = 2 * screen_x / data->width - 1;
+	ray->dist_camvec_wall *= cos(data->player->player_angle);
+    ray->camera_x = 2.0 * screen_x / (float)data->width - 1.0;
     ray->ray_dir_x = vec->dir_x + vec->plane_x * ray->camera_x;
     ray->ray_dir_y = vec->dir_y + vec->plane_y * ray->camera_x;
+	vec->grid_map_x = data->player_pos[0];
+	vec->grid_map_y = data->player_pos[1];
     ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
     ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
 }
@@ -142,20 +145,20 @@ void run_dda_algorithm(t_data *data, t_ray *ray, t_vector *vec)
         // goes to next map grid (x-direction or y-direction)
         if (ray->side_dist_x < ray->side_dist_y)
         {
-            ray->side_dist_x = ray->side_dist_x + ray->delta_dist_x;
-            vec->grid_map_x = vec->grid_map_x + ray->step_x;
+            ray->side_dist_x += ray->delta_dist_x;
+            vec->grid_map_x += ray->step_x;
             ray->wall_side = EAST_WEST;
         }
         else
         {
-            ray->side_dist_y = ray->side_dist_y + ray->delta_dist_y; // 1
-            vec->grid_map_y = vec->grid_map_y + ray->step_y; // 0
+            ray->side_dist_y +=ray->delta_dist_y; // 1
+            vec->grid_map_y += ray->step_y; // 0
             ray->wall_side = NORTH_SOUTH;
         }
         if (is_map_coordinates(vec->grid_map_x, vec->grid_map_y, data) == true)
         {
             if (data->map[vec->grid_map_x][vec->grid_map_y] == '1')
-            {   
+            {
 				// printf("ray hit wall at x: %d, y: %d\n", vec->grid_map_x, vec->grid_map_y);
                 ray_hit_wall = true;
             }
@@ -195,10 +198,10 @@ void    raycasting(t_data *data, t_vector *vec)
         // init structs (vec & ray)
         calc_ray_pos_dir(data, &ray, vec, screen_x);
         prepare_dda(data, &ray, vec);
+		// calculate wall height (camera plan vector)
+		calc_wall_height(&ray);
         // DDA loop to find wall
         run_dda_algorithm(data, &ray, vec);
-        // calculate wall height (camera plan vector)
-        calc_wall_height(&ray);
         // TODO: draw vertical line (image scaling & transformation for MLX) (textures)
         screen_x++;
     }

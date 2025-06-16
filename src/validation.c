@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/11 11:18:29 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/11 14:19:25 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,7 @@ void	init_cube(int ac, char **av, t_data *data)
 {
 	int		fd;
 
+	data->gc = gc_new();
 	if (ac != 2)
 		ft_error(data, "Init error: The only parameter in Cube3D is a map",
 			false);

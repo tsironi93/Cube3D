@@ -6,7 +6,7 @@
 /*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/11 11:15:01 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/16 11:36:23 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_player
 	float	player_delta_x;
 	float	player_delta_y;
 	float	player_angle;
+	float	wall_distance;
 }	t_player;
 
 typedef struct s_data
@@ -108,6 +109,7 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void	ft_randomize(void *param);
 void	render_player(void *param);
 void	render_direction_ray(void *param);
+void	drawRays(void *param);
 
 //=================================HOOKS========================================
 

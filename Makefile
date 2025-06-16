@@ -86,9 +86,9 @@ libft:
 	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
 
 $(NAME): $(OBJ)
-	@$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $(NAME) 
+	@$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $(NAME)
 
-#-fsanitize=address
+#-fsanitize=address -fno-omit-frame-pointer
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -103,11 +103,6 @@ ifeq ($(SUBMODULES_INITIALIZED),)
 	@echo "\n\n$(CYAN)$(LBOR) Initializing submodules... $(RBOR)$(WHITE)\n\n"
 	@git submodule update --init --recursive
 endif
-
-# submodule:
-# 	@echo "$(CYAN)$(LBOR) Initializing submodules... $(RBOR)$(WHITE)"
-# 	@git submodule update --init --recursive --remote
-# 	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
 	@echo "\n\t   $(PINK)$(LBOR)Cleaning$(RBOR)$(WHITE)\n"

@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/11 11:18:50 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/16 13:53:37 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,6 @@ static void	init_mlx(t_data *data)
 	data->image = mlx_new_image(data->mlx, data->width, data->height);
 	if (!data->image || (mlx_image_to_window(data->mlx, data->image, 0, 0) < 0))
 		ft_error(data, NULL, true);
-	// data->render->pos_x = (double)data->player_pos[0];
-	// data->render->pos_y = (double)data->player_pos[1];
-	// data->render->dir_x = -1;
-	// data->render->dir_y = 0;
-	// data->render->camera_plane_x = 0;
-	// data->render->camera_plane_y = 0.6;
 }
 
 int32_t	main(int ac, char **av)
@@ -46,10 +40,8 @@ int32_t	main(int ac, char **av)
 	t_data		data;
 	t_vector	vec;
 
-	data.gc = gc_new();
 	init_cube(ac, av, &data);
 	setup_player(&data, &vec);
-	// pause();
 	init_mlx(&data);
 	// Even after the image is being displayed, we can still modify the buffer.
 	raycasting(&data, &vec); // TODO: move (init & gameloop starts here)
