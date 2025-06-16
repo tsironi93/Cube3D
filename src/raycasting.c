@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/12 11:52:09 by pauladretta      ###   ########.fr       */
+/*   Updated: 2025/06/16 13:57:29 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void    setup_player(t_data *data)
 {
     // starting position of player (X,Y)
     // which box of the map we're in
-    data->vec->grid_map_x = data->player_pos[0];
-    data->vec->grid_map_y = data->player_pos[1];
+    data->vec->grid_map_x = data->player->player_pos_x;
+    data->vec->grid_map_y = data->player->player_pos_y;
     // initial direction vector (X,Y)
     data->vec->dir_x = 0;
     data->vec->dir_y = -1;
@@ -72,14 +72,15 @@ fabs: returns absolute value of a double
 */
 void    calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 {
+    
     ray->camera_x = 2 * screen_x / (double)data->width - 1;
-    printf("ray->camera_x = %f\n", ray->camera_x); // 0
-    printf("screen_x = %d\n", screen_x);
+    // printf("ray->camera_x = %f\n", ray->camera_x); // 0
+    // printf("screen_x = %d\n", screen_x);
     ray->ray_dir_x = vec->dir_x + vec->plane_x * ray->camera_x;
-    printf("ray_dir_x = %f\n", ray->ray_dir_x);
+    // printf("ray_dir_x = %f\n", ray->ray_dir_x);
     ray->ray_dir_y = vec->dir_y + vec->plane_y * ray->camera_x;
-    printf("ray_dir_yw = %f\n", ray->ray_dir_x);
-    printf("vec->dir_y = %f\n", vec->dir_y);
+    // printf("ray_dir_yw = %f\n", ray->ray_dir_x);
+    // printf("vec->dir_y = %f\n", vec->dir_y);
     ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
     ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
 }
@@ -100,25 +101,25 @@ void prepare_dda(t_data *data, t_ray *ray, t_vector *vec)
     if (ray->ray_dir_x < 0)
     {
         ray->step_x = -1;
-        ray->side_dist_x = (data->player_pos[0] - vec->grid_map_x) * ray->delta_dist_x;
+        ray->side_dist_x = (data->player->player_pos_x - vec->grid_map_x) * ray->delta_dist_x;
     }
     // case 2 X-direction: ray going right
     else
     {
         ray->step_x = 1;
-        ray->side_dist_x = (vec->grid_map_x + 1.0 - data->player_pos[0]) * ray->delta_dist_x;
+        ray->side_dist_x = (vec->grid_map_x + 1.0 - data->player->player_pos_x) * ray->delta_dist_x;
     }
     // case 3 Y-direction: ray going up
     if (ray->ray_dir_y < 0)
     {
         ray->step_y = -1;
-        ray->side_dist_y = (data->player_pos[1] - vec->grid_map_y) * ray->delta_dist_y;
+        ray->side_dist_y = (data->player->player_pos_y - vec->grid_map_y) * ray->delta_dist_y;
     }
     // case 4 Y-direction: ray going down
     else
     {
         ray->step_y = 1;
-        ray->side_dist_y = (vec->grid_map_y + 1.0 - data->player_pos[1]) * ray->delta_dist_y;
+        ray->side_dist_y = (vec->grid_map_y + 1.0 - data->player->player_pos_y) * ray->delta_dist_y;
     }
 }
 
@@ -193,9 +194,6 @@ void    raycasting(void *param)
 {
     t_data	*data = (t_data *)param;
 
-    // t_ray ray;
-    // t_vector vec;
-    
     int screen_x; // moves across horizontally
     int line_height;
     int draw_start;
@@ -226,7 +224,8 @@ void    raycasting(void *param)
             draw_end = data->height - 1;
 
         screen_y = 0;
-        while (screen_y < draw_start)
+        printf("Draw start %d\n", draw_start); // TODO: fix
+        while (screen_y < draw_start) 
         {
             mlx_put_pixel(data->image, screen_x, screen_y,  ft_pixel(0, 255, 0, 255));
             screen_y++;
@@ -243,7 +242,6 @@ void    raycasting(void *param)
             mlx_put_pixel(data->image, screen_x, screen_y, ft_pixel(255, 0, 0, 255)); 
             screen_y++;
         }
-        
         screen_x++;
     }
 }

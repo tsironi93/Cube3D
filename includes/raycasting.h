@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:16:57 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/11 14:22:36 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:08:59 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_vector
 }   t_vector;
 
 // all variables needed for each ray to cast from the player’s view.
-// TODO: initialize!
 // TODO: rename all variables for readability
 typedef struct s_ray
 {
@@ -58,15 +57,15 @@ typedef struct s_ray
     double dist_camvec_wall;
 }   t_ray;
 
-typedef  struct  s_line
-{
-    int x;       // screen x coordinate
-    int y;       // current y position in draw loop
-    int y0;      // starting y position for drawing
-    int y1;      // ending y position for drawing
-    int tex_x;   // texture x coordinate
-    int tex_y;   // texture y coordinate
-} t_line;
+// typedef  struct  s_line
+// {
+//     int x;       // screen x coordinate
+//     int y;       // current y position in draw loop
+//     int y0;      // starting y position for drawing
+//     int y1;      // ending y position for drawing
+//     int tex_x;   // texture x coordinate
+//     int tex_y;   // texture y coordinate
+// } t_line;
 
 //==================================RAYCASTING==================================
 
