@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:16:57 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/16 13:08:59 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:07:43 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ typedef enum s_wall_side
 
 typedef struct s_vector
 {
-    int     grid_map_x; // which box/grid of the map player is currently in
-    int     grid_map_y;
-    double  dir_x;
-    double  dir_y;
-    double  plane_x;
-    double  plane_y;
+    int     grid_map_x; // which box/grid of the map player is currently in // mapX
+    int     grid_map_y; // mapY
+    double  dir_x; // dirX  
+    double  dir_y; // dirY
+    double  plane_x; // planeX
+    double  plane_y; // planeY
 }   t_vector;
 
 // all variables needed for each ray to cast from the player’s view.
@@ -40,9 +40,9 @@ typedef struct s_vector
 typedef struct s_ray
 {
     // for ray position & direction
-    double  camera_x; // camera space
-    double  ray_dir_x;
-    double  ray_dir_y;
+    double  camera_x; // camera space // cameraX
+    double  ray_dir_x; // rayDirX
+    double  ray_dir_y; // rayDirY
     // length of ray from current position to next x or y-side / tile edge
     double  side_dist_x; // how far to the next vertical line (like walking east/west)
     double  side_dist_y; // how far to the next horizontal line (like walking north/south).

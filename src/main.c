@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/16 14:15:26 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/16 19:08:08 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ static void	init_mlx(t_data *data)
 int32_t	main(int ac, char **av)
 {
 	t_data		data;
-
+       
 	init_cube(ac, av, &data);
 	init_structs(&data);
-	setup_player(&data);
 	// pause();
-	init_mlx(&data);
+	init_mlx(&data); // player pos initialized (switched)
+	setup_player(&data); // player pos used
 	// Even after the image is being displayed, we can still modify the buffer.
 	// raycasting(&data, &vec); // TODO: move (init & gameloop starts here)
 	mlx_put_pixel(data.image, 0, 0, 0xFF0000FF);
@@ -54,7 +54,9 @@ int32_t	main(int ac, char **av)
 	// mlx_loop_hook(data.mlx, render_player, &data);
 	// mlx_loop_hook(data.mlx, render_direction_ray, &data);
 	mlx_loop_hook(data.mlx, ft_hook_keys, &data);
+	printf("im here 00\n");
 	mlx_loop(data.mlx);
+	printf("im here 01\n");
 	mlx_terminate(data.mlx);
 	gc_collect(&data.gc);
 	return (EXIT_SUCCESS);

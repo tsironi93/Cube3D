@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/16 14:17:22 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/16 19:28:01 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ void    setup_player(t_data *data)
 {
     // starting position of player (X,Y)
     // which box of the map we're in
-    data->vec->grid_map_x = data->player->player_pos_x;
+    data->vec->grid_map_x = data->player->player_pos_x; // player pos not initialized yet (init_mlx after setup_player)
+    printf("XXX = %d\n", data->vec->grid_map_x);
     data->vec->grid_map_y = data->player->player_pos_y;
+    printf("YYY = %d\n", data->vec->grid_map_y);
     // initial direction vector (X,Y)
     data->vec->dir_x = 0;
     data->vec->dir_y = -1;
@@ -72,6 +74,12 @@ fabs: returns absolute value of a double
 */
 void    calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 {
+    // double  ray_angle;
+
+    // ray_angle = atan2(ray->ray_dir_y, ray->ray_dir_x) - atan2(vec->dir_y, vec->dir_x);
+    // // p->p_directionx IS vec->dir_x
+
+    // ray->dist_camvec_wall *= cos(ray_angle);
     
     ray->camera_x = 2 * screen_x / (double)data->width - 1;
     // printf("ray->camera_x = %f\n", ray->camera_x); // 0
@@ -199,22 +207,31 @@ void    raycasting(void *param)
     int draw_start;
     int draw_end;
     int screen_y;
+    double  ray_angle;
 	
     screen_x = 0;
     while (screen_x < data->width)
     {
-        // init structs (vec & ray)
+        // printf("Casting ray at column: %d\n", screen_x); 
         calc_ray_pos_dir(data, data->ray, data->vec, screen_x);
         prepare_dda(data, data->ray, data->vec);
-        // DDA loop to find wall
         run_dda_algorithm(data, data->ray, data->vec);
-        // calculate wall height (camera plan vector)
-        calc_wall_height(data->ray);
-        // TODO: draw vertical line (image scaling & transformation for MLX) (textures)
-        // draw_images(data); 
         
-        printf("dist wall = %f\n", data->ray->dist_camvec_wall);
-        line_height = data->height / data->ray->dist_camvec_wall;
+        ray_angle = atan2(data->ray->ray_dir_y, data->ray->ray_dir_x) - atan2(data->vec->dir_y, data->vec->dir_x);
+        // p->p_directionx IS vec->dir_x
+        data->ray->dist_camvec_wall *= cos(ray_angle);
+        
+        calc_wall_height(data->ray);
+        
+        // printf("dist wall = %f\n", data->ray->dist_camvec_wall);
+
+        double dist = data->ray->dist_camvec_wall;
+        const double EPS = 1e-6; // to avoid division by 0
+        if (dist < EPS) 
+            dist = EPS;
+        line_height = (int)(data->height / dist);
+
+        // line_height = data->height / data->ray->dist_camvec_wall;
         draw_start = data->height / 2 - line_height / 2;
         draw_end = data->height / 2 + line_height / 2;
         
@@ -224,10 +241,11 @@ void    raycasting(void *param)
             draw_end = data->height - 1;
 
         screen_y = 0;
-        printf("Draw start %d\n", draw_start); // TODO: fix
+        // printf("data->image->HEIGHT %d\n", data->image->height);
+        // printf("data->image->WIDTH %d\n", data->image->width);
         while (screen_y < draw_start) 
-        {
-            mlx_put_pixel(data->image, screen_x, screen_y,  ft_pixel(0, 255, 0, 255));
+        {   
+            mlx_put_pixel(data->image, screen_x, screen_y,  ft_pixel(0, 255, 0, 255)); // green
             screen_y++;
         }
         screen_y = draw_start;
@@ -239,7 +257,7 @@ void    raycasting(void *param)
         screen_y = draw_end;
         while (screen_y < data->height)
         {
-            mlx_put_pixel(data->image, screen_x, screen_y, ft_pixel(255, 0, 0, 255)); 
+            mlx_put_pixel(data->image, screen_x, screen_y, ft_pixel(255, 0, 0, 255)); // red
             screen_y++;
         }
         screen_x++;

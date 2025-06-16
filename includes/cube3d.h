@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/16 14:22:17 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/16 14:57:48 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct s_data
 	t_player	*player;
     t_ray       *ray;
     t_vector    *vec;
-	t_line 		*line; // new
+	// t_line 		*line; // new
 	t_gc		gc;
 }	t_data;
 
