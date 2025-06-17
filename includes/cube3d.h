@@ -6,7 +6,7 @@
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/16 15:18:26 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:42:09 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,7 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 
 //=================================RENDER=======================================
 
-void	ft_randomize(void *param);
-void	render_player(void *param);
-void	render_direction_ray(void *param);
-void	render_raycasts(void *param);
+void	render_minimap(void *param);
 
 //=================================HOOKS========================================
 

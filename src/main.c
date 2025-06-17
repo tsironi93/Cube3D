@@ -6,7 +6,7 @@
 /*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/16 14:15:26 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:39:54 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int32_t	main(int ac, char **av)
 	init_cube(ac, av, &data);
 	init_structs(&data);
 	setup_player(&data);
-	// pause();
 	init_mlx(&data);
 	// Even after the image is being displayed, we can still modify the buffer.
 	// raycasting(&data, &vec); // TODO: move (init & gameloop starts here)
@@ -50,11 +49,10 @@ int32_t	main(int ac, char **av)
 	// Register a hook and pass mlx as an optional param.
 	// NOTE: Do this before calling mlx_loop!	
 	mlx_loop_hook(data.mlx, raycasting, &data);
-	// mlx_loop_hook(data.mlx, ft_randomize, &data);
-	// mlx_loop_hook(data.mlx, render_player, &data);
-	// mlx_loop_hook(data.mlx, render_direction_ray, &data);
+	mlx_loop_hook(data.mlx, render_minimap, &data);
 	mlx_loop_hook(data.mlx, ft_hook_keys, &data);
 	mlx_loop(data.mlx);
+	mlx_delete_image(data.mlx, data.image);
 	mlx_terminate(data.mlx);
 	gc_collect(&data.gc);
 	return (EXIT_SUCCESS);

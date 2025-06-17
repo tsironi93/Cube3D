@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:16:58 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/16 13:56:57 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:42:31 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	ft_hook_keys(void *param)
 	data = param;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(data->mlx);
-	if (mlx_is_key_down(data->mlx, MLX_KEY_W)) // forward
+	if (mlx_is_key_down(data->mlx, MLX_KEY_S)) // forward
 	{
 		data->player->player_pos_x += data->player->player_delta_x;
 		data->player->player_pos_y += data->player->player_delta_y;
 	}
-	if (mlx_is_key_down(data->mlx, MLX_KEY_S)) // backward
+	if (mlx_is_key_down(data->mlx, MLX_KEY_W)) // backward
 	{
 		data->player->player_pos_x -= data->player->player_delta_x;
 		data->player->player_pos_y -= data->player->player_delta_y;
