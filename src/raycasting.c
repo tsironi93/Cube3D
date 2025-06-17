@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/16 19:28:01 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:19:37 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ bool inside_of_walls(int x, int y, t_data *data)
     return(false);
 }
 
-// NOTES:
-// seperate variables for x and y?
-//   playerpos0 -> x (player_pos.x) / player_pos_X
-//   playerpos1 -> y (player_pos.y) / player_pos_Y
 //  initial player setup (dir, plane, pos) at game start
 // (PLAYER FACES NORTH)
 // initialization (all others run in a per-ray, per-frame sense)
@@ -44,11 +40,11 @@ void    setup_player(t_data *data)
 {
     // starting position of player (X,Y)
     // which box of the map we're in
-    data->vec->grid_map_x = data->player->player_pos_x; // player pos not initialized yet (init_mlx after setup_player)
+    data->vec->grid_map_x = data->player->player_pos_x;
     printf("XXX = %d\n", data->vec->grid_map_x);
     data->vec->grid_map_y = data->player->player_pos_y;
     printf("YYY = %d\n", data->vec->grid_map_y);
-    // initial direction vector (X,Y)
+    // initial direction vector (X,Y) (where player is looking)
     data->vec->dir_x = 0;
     data->vec->dir_y = -1;
     // camera FOV plane (X,Y)
@@ -74,14 +70,10 @@ fabs: returns absolute value of a double
 */
 void    calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 {
-    // double  ray_angle;
+    double  ray_angle;
 
-    // ray_angle = atan2(ray->ray_dir_y, ray->ray_dir_x) - atan2(vec->dir_y, vec->dir_x);
-    // // p->p_directionx IS vec->dir_x
-
-    // ray->dist_camvec_wall *= cos(ray_angle);
-    
-    ray->camera_x = 2 * screen_x / (double)data->width - 1;
+    ray->camera_x = 2 * screen_x / (double)data->width - 1; // in which direction ray is pointing for this pixel column x on screen (column x 0 (far left), 320 straight, 639 right)
+    // it decides what wall (and how far) he ray will hit in the game world. WHICH then decides how tall the vertical line will be for that column
     // printf("ray->camera_x = %f\n", ray->camera_x); // 0
     // printf("screen_x = %d\n", screen_x);
     ray->ray_dir_x = vec->dir_x + vec->plane_x * ray->camera_x;
@@ -91,6 +83,10 @@ void    calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
     // printf("vec->dir_y = %f\n", vec->dir_y);
     ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
     ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
+    
+    ray_angle = atan2(data->ray->ray_dir_y, data->ray->ray_dir_x) - atan2(data->vec->dir_y, data->vec->dir_x);
+    // p->p_directionx IS vec->dir_x
+    data->ray->dist_camvec_wall *= cos(ray_angle);
 }
 
 //  *calculate step and initial sideDist*
@@ -207,7 +203,6 @@ void    raycasting(void *param)
     int draw_start;
     int draw_end;
     int screen_y;
-    double  ray_angle;
 	
     screen_x = 0;
     while (screen_x < data->width)
@@ -216,14 +211,10 @@ void    raycasting(void *param)
         calc_ray_pos_dir(data, data->ray, data->vec, screen_x);
         prepare_dda(data, data->ray, data->vec);
         run_dda_algorithm(data, data->ray, data->vec);
-        
-        ray_angle = atan2(data->ray->ray_dir_y, data->ray->ray_dir_x) - atan2(data->vec->dir_y, data->vec->dir_x);
-        // p->p_directionx IS vec->dir_x
-        data->ray->dist_camvec_wall *= cos(ray_angle);
-        
         calc_wall_height(data->ray);
         
         // printf("dist wall = %f\n", data->ray->dist_camvec_wall);
+
 
         double dist = data->ray->dist_camvec_wall;
         const double EPS = 1e-6; // to avoid division by 0
@@ -235,11 +226,13 @@ void    raycasting(void *param)
         draw_start = data->height / 2 - line_height / 2;
         draw_end = data->height / 2 + line_height / 2;
         
+        // making sure drawing of line doesnt go off screen
         if (draw_start < 0)
             draw_start = 0;
         if (draw_end >= data->height)
             draw_end = data->height - 1;
 
+        // drawing vertical line at column x from draw_start to draw_end
         screen_y = 0;
         // printf("data->image->HEIGHT %d\n", data->image->height);
         // printf("data->image->WIDTH %d\n", data->image->width);
@@ -263,3 +256,5 @@ void    raycasting(void *param)
         screen_x++;
     }
 }
+
+// IN MAP (x is down, y is right)

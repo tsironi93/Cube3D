@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"raycasting.h": "c"
+		"raycasting.h": "c",
+		"__node_handle": "c"
 	}
 }

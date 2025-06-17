@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/16 19:08:08 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:48:57 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int32_t	main(int ac, char **av)
 	init_cube(ac, av, &data);
 	init_structs(&data);
 	// pause();
-	init_mlx(&data); // player pos initialized (switched)
-	setup_player(&data); // player pos used
+	init_mlx(&data);
+	setup_player(&data);
 	// Even after the image is being displayed, we can still modify the buffer.
 	// raycasting(&data, &vec); // TODO: move (init & gameloop starts here)
 	mlx_put_pixel(data.image, 0, 0, 0xFF0000FF);

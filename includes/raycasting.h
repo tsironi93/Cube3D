@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:16:57 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/16 19:07:43 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:41:44 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,6 @@ typedef struct s_ray
     int     wall_side;
     double dist_camvec_wall;
 }   t_ray;
-
-// typedef  struct  s_line
-// {
-//     int x;       // screen x coordinate
-//     int y;       // current y position in draw loop
-//     int y0;      // starting y position for drawing
-//     int y1;      // ending y position for drawing
-//     int tex_x;   // texture x coordinate
-//     int tex_y;   // texture y coordinate
-// } t_line;
 
 //==================================RAYCASTING==================================
 

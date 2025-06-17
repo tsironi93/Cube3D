@@ -1,13 +1,13 @@
-# # Ignore everything
-# *
+# Ignore everything
+*
 
-# # Allow all directories
-# !*/
+# Allow all directories
+!*/
 
-# # Allow C source and header files
-# !*.c
-# !*.h
-# !.*
-# !*.cub
-# # Allow Makefile
-# !Makefile
+# Allow C source and header files
+!*.c
+!*.h
+!.*
+!*.cub
+# Allow Makefile
+!Makefile

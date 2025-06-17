@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/16 14:57:48 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:52:21 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_player
 {
 	float	player_pos_x;
 	float	player_pos_y;
-	float	player_delta_x;
+	float	player_delta_x; 
 	float	player_delta_y;
 	float	player_angle;
 }	t_player;
