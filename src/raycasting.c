@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/18 16:03:06 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/18 18:06:19 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void run_dda_algorithm(t_data *data, t_ray *ray, t_vector *vec)
     int iterations;
     int max_iterations;
     
-    max_iterations = data->map_height + data->width; // prevent infinite loop (NEW)
+    max_iterations = data->map_height + data->map_width; // prevent infinite loop (NEW) // data->width
     iterations = 0;
     ray_hit_wall = false;
     while (ray_hit_wall == false && iterations < max_iterations)
@@ -272,8 +272,16 @@ void draw_ceiling_floor_wall(t_data	*data, int screen_x)
 void    raycasting(void *param)
 {
     t_data	*data = (t_data *)param;
-
     int screen_x; // moves across horizontally
+    
+    // ***DEBUG FT******
+    static bool debug_printed = false;
+    if (!debug_printed)
+    {
+        debug_map_and_player(data);
+        debug_printed = true;
+    }
+    // ***END******
     
     screen_x = 0;
     while (screen_x < data->width)
@@ -283,8 +291,8 @@ void    raycasting(void *param)
         run_dda_algorithm(data, data->ray, data->vec);
         calc_wall_height(data->ray);
         draw_ceiling_floor_wall(data, screen_x);
-        printf("XXX = %d\n", data->vec->grid_map_x);
-        printf("YYY = %d\n", data->vec->grid_map_y);
+        // printf("XXX = %d\n", data->vec->grid_map_x);
+        // printf("YYY = %d\n", data->vec->grid_map_y);
         screen_x++;
     }
 }

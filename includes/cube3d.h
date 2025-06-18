@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/18 14:19:41 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:39:32 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <math.h>
 # include "../libs/MLX42/include/MLX42/MLX42.h"
 # include "../libs/libft/libft.h"
+// # include "../libs/getnextline/get_next_line.h"
 # include "../includes/raycasting.h"
 
 //=====ASCII COLORS======
@@ -105,7 +106,7 @@ typedef struct s_data
 
 //==================================UTILS=======================================
 
-char	*get_next_line(t_data *data, int fd);
+// char	*get_next_line(t_data *data, int fd);
 int		ft_isspace(int c);
 
 //================================VALIDATION====================================
@@ -152,6 +153,9 @@ void    raycasting(void *param);
 void    render_frame(void *param);
 void 	init_structs(t_data *data);
 void 	draw_images(t_data *data);
+bool	is_map_coordinates(int x, int y, t_data *data);
+void 	debug_map_and_player(t_data *data);
+char	*get_next_line(int fd);
 
 #endif // !CUBE3D_H
  
