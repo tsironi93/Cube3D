@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/18 18:06:19 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:08:09 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ bool is_map_coordinates(int x, int y, t_data *data)
 // call ft if needed when walking through wall or ray shoots through wall any other than the first one
 bool inside_of_walls(int x, int y, t_data *data)
 {
+    // printf("map xy = %c\n", data->map[data->player->player_pos_x][data->player->player_pos_y]);
     if (is_map_coordinates(x, y, data) == false)
         return (false);
     if (data->map[x][y] == '1' || data->map[x][y] == 'F')
