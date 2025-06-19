@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:16:58 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/19 16:04:54 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/19 18:02:54 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,29 @@ void	ft_hook_keys(void *param)
 	float	old_position_y;
 	float	new_position_x;
 	float	new_position_y;
+	float	example_position_x;
 
 	data = param;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(data->mlx);
+	mlx_close_window(data->mlx);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_S)) // forward
 	{
+		example_position_x = 9.32;
+		printf("example_position_x number = %f\n", example_position_x);
+		printf("example_position_x number INT = %d\n", (int)round(example_position_x));
+		example_position_x = 9.72;
+		printf("example_position_x number = %f\n", example_position_x);
+		printf("example_position_x number INT = %d\n", (int)round(example_position_x));
+		
 		// inside_of_walls(data->player->player_pos_x, data->player->player_pos_y, data);
 		old_position_x = data->player->player_pos_x;
 		old_position_y = data->player->player_pos_y;
 		// moving and getting new position
 		new_position_x = old_position_x + data->vec->dir_x * 0.05;
 		new_position_y = old_position_y + data->vec->dir_y * 0.05;
-		if ((data->map[(int)new_position_x][(int)new_position_y] == '1') || (data->map[(int)old_position_x][(int)new_position_y] == '1') || (data->map[(int)new_position_x][(int)old_position_y] == '1'))
+		// if ((data->map[(int)round(new_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)round(old_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)round(new_position_x)][(int)round(old_position_y)] == '1') \
+		// || (data->map[(int)new_position_x][(int)new_position_y] == '1') || (data->map[(int)old_position_x][(int)new_position_y] == '1') || (data->map[(int)new_position_x][(int)old_position_y] == '1'))
+		if ((data->map[(int)round(new_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)new_position_x][(int)new_position_y] == '1'))
 		{
 			printf("cant move, wall detected\n");
 		}
@@ -66,7 +76,9 @@ void	ft_hook_keys(void *param)
 		// moving and getting new position
 		new_position_x = old_position_x - data->vec->dir_x * 0.05;
 		new_position_y = old_position_y - data->vec->dir_y * 0.05;
-		if ((data->map[(int)new_position_x][(int)new_position_y] == '1') || (data->map[(int)old_position_x][(int)new_position_y] == '1') || (data->map[(int)new_position_x][(int)old_position_y] == '1'))
+		// if ((data->map[(int)round(new_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)round(old_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)round(new_position_x)][(int)round(old_position_y)] == '1') \
+		// || (data->map[(int)new_position_x][(int)new_position_y] == '1') || (data->map[(int)old_position_x][(int)new_position_y] == '1') || (data->map[(int)new_position_x][(int)old_position_y] == '1'))
+		if ((data->map[(int)round(new_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)new_position_x][(int)new_position_y] == '1'))		
 		{
 			printf("cant move, wall detected\n");
 		}
@@ -86,7 +98,9 @@ void	ft_hook_keys(void *param)
 		// moving and getting new position
 		new_position_x = old_position_x - data->vec->plane_x * 0.05;
 		new_position_y = old_position_y - data->vec->plane_y * 0.05;
-		if ((data->map[(int)new_position_x][(int)new_position_y] == '1') || (data->map[(int)old_position_x][(int)new_position_y] == '1') || (data->map[(int)new_position_x][(int)old_position_y] == '1'))
+		// if ((data->map[(int)round(new_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)round(old_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)round(new_position_x)][(int)round(old_position_y)] == '1') \
+		// || (data->map[(int)new_position_x][(int)new_position_y] == '1') || (data->map[(int)old_position_x][(int)new_position_y] == '1') || (data->map[(int)new_position_x][(int)old_position_y] == '1'))
+		if ((data->map[(int)round(new_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)new_position_x][(int)new_position_y] == '1'))	
 		{
 			printf("cant move, wall detected\n");
 		}
@@ -106,7 +120,9 @@ void	ft_hook_keys(void *param)
 		// moving and getting new position
 		new_position_x = old_position_x + data->vec->plane_x * 0.05;
 		new_position_y = old_position_y + data->vec->plane_y * 0.05;
-		if ((data->map[(int)new_position_x][(int)new_position_y] == '1') || (data->map[(int)old_position_x][(int)new_position_y] == '1') || (data->map[(int)new_position_x][(int)old_position_y] == '1'))
+		// if ((data->map[(int)round(new_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)round(old_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)round(new_position_x)][(int)round(old_position_y)] == '1') \
+		// || (data->map[(int)new_position_x][(int)new_position_y] == '1') || (data->map[(int)old_position_x][(int)new_position_y] == '1') || (data->map[(int)new_position_x][(int)old_position_y] == '1'))
+		if ((data->map[(int)round(new_position_x)][(int)round(new_position_y)] == '1') || (data->map[(int)new_position_x][(int)new_position_y] == '1'))	
 		{
 			printf("cant move, wall detected\n");
 		}
@@ -146,5 +162,3 @@ void	ft_hook_keys(void *param)
 // 	data->player->player_delta_x = cos(data->player->player_angle);
 // 	data->player->player_delta_y = sin(data->player->player_angle);
 // }
-
-
