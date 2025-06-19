@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/19 16:06:28 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:06:41 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int32_t	main(int ac, char **av)
        
 	init_cube(ac, av, &data);
 	init_structs(&data);
-	// pause();
 	init_mlx(&data);
 	setup_player(&data);
 	// Even after the image is being displayed, we can still modify the buffer.
@@ -52,7 +51,6 @@ int32_t	main(int ac, char **av)
 	mlx_loop_hook(data.mlx, raycasting, &data);
 	mlx_loop_hook(data.mlx, render_minimap, &data);
 	mlx_loop_hook(data.mlx, ft_hook_keys, &data);
-	printf("im here 00\n");
 	mlx_loop(data.mlx);
 	mlx_delete_image(data.mlx, data.image);
 	mlx_terminate(data.mlx);
