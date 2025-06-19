@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/17 17:42:09 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/19 16:08:19 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <math.h>
 # include "../libs/MLX42/include/MLX42/MLX42.h"
 # include "../libs/libft/libft.h"
+// # include "../libs/getnextline/get_next_line.h"
 # include "../includes/raycasting.h"
 
 //=====ASCII COLORS======
@@ -72,7 +73,7 @@ typedef struct s_player
 {
 	float	player_pos_x;
 	float	player_pos_y;
-	float	player_delta_x;
+	float	player_delta_x; 
 	float	player_delta_y;
 	float	player_angle;
 }	t_player;
@@ -97,15 +98,15 @@ typedef struct s_data
 	float		player_ofset_x;
 	float		player_ofset_y;
 	t_player	*player;
-	t_ray		*ray;
-	t_vector	*vec;
-	t_line		*line;
+    t_ray       *ray;
+    t_vector    *vec;
+	// t_line 		*line; // new
 	t_gc		gc;
 }	t_data;
 
 //==================================UTILS=======================================
 
-char	*get_next_line(t_data *data, int fd);
+// char	*get_next_line(t_data *data, int fd);
 int		ft_isspace(int c);
 
 //================================VALIDATION====================================
@@ -144,10 +145,14 @@ void	d(void);
 
 //===============================RAYCASTING=====================================
 
-void	setup_player(t_data *data);
-void	raycasting(void *param);
-void	render_frame(void *param);
-void	init_structs(t_data *data);
-void	draw_images(t_data *data);
+void    setup_player(t_data *data);
+void    raycasting(void *param);
+void    render_frame(void *param);
+void 	init_structs(t_data *data);
+void 	draw_images(t_data *data);
+bool	is_map_coordinates(int x, int y, t_data *data);
+void 	debug_map_and_player(t_data *data);
+char	*get_next_line(int fd);
+bool	inside_of_walls(int x, int y, t_data *data);
 
 #endif // !CUBE3D_H

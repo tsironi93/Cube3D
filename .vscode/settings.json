@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"raycasting.h": "c",
+		"__node_handle": "c",
+		"cube3d.h": "c"
+	}
+}

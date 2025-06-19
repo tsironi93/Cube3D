@@ -3,7 +3,7 @@ NAME			=	cub3D
 # BONUS_NAME		=	_bonus
 
 CC				=	cc
-CFLAGS			=	-Wall -Wextra -Werror -Wunreachable-code -Ofast -g -MMD #-fsanitize=address -fno-omit-frame-pointer
+CFLAGS			=	-Wall -Wextra -Werror -Wunreachable-code -Ofast -g  -MMD #-fsanitize=address -fno-omit-frame-pointer
 MLXFLAGS		=	#-DDEBUG=1 -DGLFW_FETCH=OFF
 
 LIBFT_DIR		=	./libs/libft
@@ -16,11 +16,11 @@ ifeq ($(UNAME_S), Darwin)
 	CFLAGS  += -DMACOS
 	LIBS    = $(LIBMLX)/build/libmlx42.a -lglfw \
 	          -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo \
-	          -pthread -lm $(LIBFT_DIR)/libft.a
+	          -pthread -lm  $(LIBFT_DIR)/libft.a
 else ifeq ($(UNAME_S), Linux)
 	# Linux-specific flags
 	CFLAGS  += -DLINUX
-	LIBS    = $(LIBMLX)/build/libmlx42.a -lglfw -ldl -lGL -lm -pthread $(LIBFT_DIR)/libft.a
+	LIBS    = $(LIBMLX)/build/libmlx42.a -lglfw -ldl -lGL -lm -pthread $(LIBFT_DIR)/libft.a 
 endif
 
 #LIBS			=	$(LIBMLX)/build/libmlx42.a -lglfw -pthread -lm $(LIBFT_DIR)/libft.a
@@ -88,7 +88,7 @@ libft:
 $(NAME): $(OBJ)
 	@$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $(NAME)
 
-#-fsanitize=address -fno-omit-frame-pointer
+-fsanitize=address -fno-omit-frame-pointer
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@

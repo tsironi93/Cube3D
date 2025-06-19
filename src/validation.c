@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/11 14:19:25 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/06/18 17:25:24 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static void fetch_map(t_data *data, char *line, char ***map)
 			(*map)[j][max_len] = '\0';
 		}
 		(*map)[j] = NULL;
-		// data->map_height = j; // NEW (paula)
+		data->map_height = i; // NEW (paula)
 		i = -1;
 	}
 	else
@@ -116,7 +116,7 @@ static void	validate_file(int fd, t_data *data)
 
 	while (MALAKA)
 	{
-		line = get_next_line(data, fd);
+		line = get_next_line(fd);
 		if (!line)
 			break ;
 		if (!ft_strcmp(line, "\n"))
