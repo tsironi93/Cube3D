@@ -90,7 +90,10 @@ $(NAME): $(OBJ)
 
 -fsanitize=address -fno-omit-frame-pointer
 
+#$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+#	@$(CC) $(CFLAGS) -c $< -o $@
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR):

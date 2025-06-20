@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/19 16:06:41 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:02:22 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	init_mlx(t_data *data)
 	data->player->player_angle = PI / 2;
 	data->player->player_delta_x = cos(data->player->player_angle);
 	data->player->player_delta_y = sin(data->player->player_angle);
-	mlx_set_setting(MLX_FULLSCREEN, true);
+	mlx_set_setting(MLX_MAXIMIZED, true);
 	data->mlx = mlx_init(data->width, data->height, "Cube3D", true);
 	if (!data->mlx)
 		ft_error(data, NULL, true);

@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/19 16:08:19 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:46:19 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,5 +154,13 @@ bool	is_map_coordinates(int x, int y, t_data *data);
 void 	debug_map_and_player(t_data *data);
 char	*get_next_line(int fd);
 bool	inside_of_walls(int x, int y, t_data *data);
+void	draw_ceiling_floor_wall(t_data *data, int screen_x);
+uint32_t	get_wall_color(t_ray *ray);
+void	calc_wall_height(t_data *data, t_ray *ray);
+void	run_dda_algorithm(t_data *data, t_ray *ray, t_vector *vec);
+void	prepare_dda(t_data *data, t_ray *ray, t_vector *vec);
+void	calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x);
+bool	inside_of_walls(int x, int y, t_data *data);
+bool	is_map_coordinates(int x, int y, t_data *data);
 
 #endif // !CUBE3D_H

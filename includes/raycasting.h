@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:16:57 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/19 16:07:30 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:07:24 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,12 @@ typedef struct s_ray
     // if NS (y-side, to 1) or EW (x-side, to 0) wall was hit
     int     wall_side;
     double dist_camvec_wall;
+    int     wall_height;
+    int			draw_start;
+	int			draw_end;
 }   t_ray;
 
+// TODO: make seperate struct for wall?
 //==================================RAYCASTING==================================
 
 // void    setup_player(t_data *data);
