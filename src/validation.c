@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/18 17:25:24 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:11:03 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,21 @@ static void	texture_and_colors(t_data *data, char *line, t_map_data ref)
 	while (ft_isspace(*line))
 		line++;
 	line = ft_strtrim(line, "\n");
-	printf(BOLD YELLOW);
 	if (ref == NORTH_TEXTURE)
 	{
-		printf("NORTH_TEXTURE\t: %s\n", line);
-		data->north_texture = gc_strdup(&data->gc, line);
+		data->textures->north_texture = gc_strdup(&data->gc, line);
+		printf("line : %ds., line: %s\n", (int)ft_strlen(line), line);
 	}
 	else if (ref == SOUTH_TEXTURE)
-	{
-		printf("SOUTH_TEXTURE\t: %s\n", line);
-		data->south_texture = gc_strdup(&data->gc, line);
-	}
+		data->textures->south_texture = gc_strdup(&data->gc, line);
 	else if (ref == WEST_TEXTURE)
-	{
-		printf("WEST_TEXTURE\t: %s\n", line);
-		data->west_texture = gc_strdup(&data->gc, line);
-	}
+		data->textures->west_texture = gc_strdup(&data->gc, line);
 	else if (ref == EAST_TEXTURE)
-	{
-		printf("EAST_TEXTURE\t: %s\n", line);
-		data->east_texture = gc_strdup(&data->gc, line);
-	}
+		data->textures->east_texture = gc_strdup(&data->gc, line);
 	else if (ref == FLOOR_COLOR)
-	{
-		printf("FLOOR_COLOR\t: %s\n", line);
-		data->floor_color = ft_split(line, ',');
-	}
+		data->textures->floor_color = ft_split(line, ',');
 	else if (ref == CEILING_COLOR)
-	{
-		printf("CEILING_COLOR\t: %s\n", line);
-		data->ceiling_color = ft_split(line, ',');
-	}
-	printf(RESET);
+		data->textures->ceiling_color = ft_split(line, ',');
 }
 
 static bool	validate_syntax(char **map)
@@ -72,7 +55,7 @@ static bool	validate_syntax(char **map)
 	return (true);
 }
 
-static void fetch_map(t_data *data, char *line, char ***map)
+static void	fetch_map(t_data *data, char *line, char ***map)
 {
 	static char		*map_buffer[1024];
 	static int		i;
@@ -94,7 +77,7 @@ static void fetch_map(t_data *data, char *line, char ***map)
 			(*map)[j][max_len] = '\0';
 		}
 		(*map)[j] = NULL;
-		data->map_height = i; // NEW (paula)
+		data->map_height = i;
 		i = -1;
 	}
 	else
@@ -103,11 +86,7 @@ static void fetch_map(t_data *data, char *line, char ***map)
 		if (max_len < ft_strlen(new_line))
 			max_len = ft_strlen(new_line);
 		map_buffer[i++] = new_line;
-		printf("bufferLine : %s\n", map_buffer[i - 1]);
 	}
-	// i = -1;
-	// while (data->map[++i])
-	// 	printf("%s\n", data->map[i]);
 }
 
 static void	validate_file(int fd, t_data *data)
@@ -217,11 +196,21 @@ void	init_cube(int ac, char **av, t_data *data)
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		ft_error(data, "Init error: Cant open map or file doesnt exist", false);
+	data->textures = gc_malloc(&data->gc, sizeof(t_textures));
+	ft_bzero(data->textures, sizeof(t_textures));
 	validate_file(fd, data);
+	if (data->textures->north_texture == NULL
+		|| data->textures->south_texture == NULL
+		|| data->textures->west_texture == NULL
+		|| data->textures->east_texture == NULL
+		|| data->textures->floor_color == NULL
+		|| data->textures->ceiling_color == NULL)
+		ft_error(data, "Init error: Missing textures or colors", false);
 	fetch_map(data, NULL, &data->map);
 	if (!validate_syntax(data->map))
 		ft_error(data, "Wrong characters found in the map", false);
 	find_player_pos(data, data->map);
-	flood_check(data, clone_map(data, data->map), data->player_pos[0], data->player_pos[1]);
+	flood_check(data, clone_map(data, data->map), data->player_pos[0],
+		data->player_pos[1]);
 	close(fd);
 }

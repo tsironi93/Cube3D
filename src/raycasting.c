@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/19 16:06:58 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:18:17 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,8 +251,8 @@ void draw_ceiling_floor_wall(t_data	*data, int screen_x)
     // printf("data->image->HEIGHT %d\n", data->image->height);
     // printf("data->image->WIDTH %d\n", data->image->width);
     while (screen_y < draw_start) 
-    {   
-        mlx_put_pixel(data->image, screen_x, screen_y,  ft_pixel(0, 255, 0, 255)); // green ceiling
+    {
+        mlx_put_pixel(data->image, screen_x, screen_y,  ft_pixel(data->textures->red_ceiling, data->textures->green_ceiling, data->textures->blue_ceiling, 255)); // green ceiling
         screen_y++;
     }
     // screen_y = draw_start;
@@ -264,7 +264,7 @@ void draw_ceiling_floor_wall(t_data	*data, int screen_x)
     screen_y = draw_end;
     while (screen_y < data->height)
     {
-        mlx_put_pixel(data->image, screen_x, screen_y, ft_pixel(255, 0, 0, 255)); // red floor
+        mlx_put_pixel(data->image, screen_x, screen_y, ft_pixel(data->textures->red_floor, data->textures->green_floor, data->textures->blue_floor, 255)); // red floor
         screen_y++;
     } 
 }
