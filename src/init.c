@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:39:35 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/16 16:30:37 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:41:02 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	init_vec(t_data *data)
 	data->vec->plane_y = 0;
 }
 
-void init_structs(t_data *data)
+void	init_structs(t_data *data)
 {
 	init_ray(data);
 	init_vec(data);
