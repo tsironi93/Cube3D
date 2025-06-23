@@ -1,10 +1,10 @@
-			    NO	./textures/B.png
-				SO	    ./textures/B.png
-				EA ./textures/B.png
+			    NO	./textures/Bs.png
+				SO	    ./textures/Bs.png
+				EA ./textures/Bs.png
 
 F 220,100,0
-C 225,30,0
-WE ./textures/B.png
+C 0,0,0
+WE ./textures/Bs.png
 
 
         1111111111111111111111111
