@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:58:47 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/20 18:13:01 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/26 22:10:31 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	draw_ceiling_floor_wall(t_data *data, int screen_x)
 colors wall sides differently for easier visuals
 EAST_WEST wall: light blue
 NORTH_SOUTH wall: darker blue
-// TODO: remove after textures?
 */
 uint32_t	get_wall_color(t_ray *ray)
 {

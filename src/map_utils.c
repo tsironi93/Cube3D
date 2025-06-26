@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting_old.c                                   :+:      :+:    :+:   */
+/*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 11:44:41 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/22 14:52:03 by pdrettas         ###   ########.fr       */
+/*   Created: 2025/06/26 20:51:58 by pdrettas          #+#    #+#             */
+/*   Updated: 2025/06/26 22:18:31 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3d.h"
-#include "../../includes/raycasting.h"
+#include "../includes/cube3d.h"
+#include "../includes/raycasting.h"
+
+// if player collides with a wall when trying to move
+bool	is_wall_collision(t_data *data, float position_x, float position_y)
+{
+	if ((data->map[(int)round(position_x)][(int)round(position_y)] == '1')
+		|| (data->map[(int)position_x][(int)position_y] == '1'))
+		return (true);
+	else
+		return (false);
+}
 
 // if coordinates are within the map bounds
 bool	is_map_coordinates(int x, int y, t_data *data)
@@ -24,7 +34,8 @@ bool	is_map_coordinates(int x, int y, t_data *data)
 }
 
 /*
-when walking through wall or ray shoots through wall any other than the first one
+when walking through wall or ray shoots through wall 
+any other than the first one
 */
 bool	inside_of_walls(int x, int y, t_data *data)
 {

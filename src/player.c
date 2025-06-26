@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 14:07:20 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/22 14:56:11 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:03:12 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	set_player_west(t_vector *vec);
 
 /*
 initial player setup for game start.
-includes position of player in the map, and the direction he is facing.
+includes starting position of player in the map, and the direction he is facing.
 direction vector: where player looks (left, right, ...)
 camera plane vector: field of view
 */
@@ -30,7 +30,6 @@ void	setup_player(t_data *data, t_vector *vec)
 
 	vec->grid_map_x = (int)data->player->player_pos_x;
 	vec->grid_map_y = (int)data->player->player_pos_y;
-
 	direction = data->map[vec->grid_map_x][vec->grid_map_y];
 	if (direction == 'N')
 		set_player_north(vec);
