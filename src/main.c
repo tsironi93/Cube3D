@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/22 13:13:03 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:09:49 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int32_t	main(int ac, char **av)
 	init_mlx(&data);
 	setup_player(&data, data.vec);
 	// Even after the image is being displayed, we can still modify the buffer.
-	// raycasting(&data, &vec); // TODO: move (init & gameloop starts here)
 	mlx_put_pixel(data.image, 0, 0, 0xFF0000FF);
 	// Register a hook and pass mlx as an optional param.
 	// NOTE: Do this before calling mlx_loop!	
