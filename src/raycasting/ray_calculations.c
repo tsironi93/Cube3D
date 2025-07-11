@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:35:16 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/20 18:12:54 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:02:15 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ fabs: returns absolute value of a double
 void	calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 {
 	ray->camera_x = 2 * screen_x / (double)data->width - 1;
-
 	ray->ray_dir_x = vec->dir_x + vec->plane_x * ray->camera_x;
 	ray->ray_dir_y = vec->dir_y + vec->plane_y * ray->camera_x;
-
 	if (ray->ray_dir_x == 0)
 		ray->delta_dist_x = 1e30;
 	else
@@ -40,51 +38,6 @@ void	calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 		ray->delta_dist_y = 1e30;
 	else
 		ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
-}
-
-//  *calculate step and initial sideDist*
-// calculate side_dist_x & y -> distance to next vertical/horizontal gridline
-// calculate stepx, stepy (either +1 or -1)
-	//-> which direction ray is stepping in grid
-/*
-1. Setting the step direction (left/right or up/down).
-2. Calculating how far the ray has to travel to hit
-the first vertical or horizontal grid line.
-// resetting grid position for each ray (NEW)
-// since DDA algo modifies these values, so have to start fresh for each ray
-// case 1 X-direction: ray going left
-// case 2 X-direction: ray going right
-// case 3 Y-direction: ray going up
-// case 4 Y-direction: ray going down
-*/
-void	prepare_dda(t_data *data, t_ray *ray, t_vector *vec)
-{
-	vec->grid_map_x = (int)data->player->player_pos_x;
-	vec->grid_map_y = (int)data->player->player_pos_y;
-	if (ray->ray_dir_x < 0)
-	{
-		ray->step_x = -1;
-		ray->side_dist_x = (data->player->player_pos_x - vec->grid_map_x)
-			* ray->delta_dist_x;
-	}
-	else
-	{
-		ray->step_x = 1;
-		ray->side_dist_x = (vec->grid_map_x + 1.0 - data->player->player_pos_x)
-			* ray->delta_dist_x;
-	}
-	if (ray->ray_dir_y < 0)
-	{
-		ray->step_y = -1;
-		ray->side_dist_y = (data->player->player_pos_y - vec->grid_map_y)
-			* ray->delta_dist_y;
-	}
-	else
-	{
-		ray->step_y = 1;
-		ray->side_dist_y = (vec->grid_map_y + 1.0 - data->player->player_pos_y)
-			* ray->delta_dist_y;
-	}
 }
 
 /*

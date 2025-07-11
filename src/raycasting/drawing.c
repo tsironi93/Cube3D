@@ -6,15 +6,13 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:58:47 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/07/11 16:24:28 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/11 16:43:26 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube3d.h"
 #include "../../includes/raycasting.h"
 #include <stdint.h>
-
-int	get_wall_color(t_ray *ray);
 
 /*
 creates the 3D perspective illusion by:
@@ -146,18 +144,3 @@ void	draw_ceiling_floor_wall(t_data *data, int screen_x)
     }
 }
 
-
-
-/*
-colors wall sides differently for easier visuals
-EAST_WEST wall: light blue
-NORTH_SOUTH wall: darker blue
-// TODO: remove after textures?
-*/
-int	get_wall_color(t_ray *ray)
-{
-	if (ray->wall_side == EAST_WEST)
-		return (0x0000FFFF);
-	else
-		return (0x000080FF);
-}

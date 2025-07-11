@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/09 14:55:13 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/11 16:42:57 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int32_t	main(int ac, char **av)
 	init_cube(ac, av, &data);
 	init_structs(&data);
 	init_mlx(&data);
-	setup_player(&data);
+	setup_player(&data, data.vec);
 	mlx_put_pixel(data.image, 0, 0, 0xFF0000FF);
 	mlx_loop_hook(data.mlx, raycasting, &data);
 	mlx_loop_hook(data.mlx, render_minimap, &data);
