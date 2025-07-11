@@ -1,10 +1,10 @@
-			    NO	./textures/Bs.png
-				SO	    ./textures/Bs.png
-				EA ./textures/Bs.png
+			    NO	./textures/storageunits/allwalls11.png
+				SO	    ./textures/storageunits/allwalls13.png
+				EA ./textures/storageunits/allwalls15.png
 
-F 220,100,0
-C 0,0,0
-WE ./textures/Bs.png
+F 42, 42, 42
+C 207, 207, 207
+WE ./textures/storageunits/allwalls17.png
 
 
         1111111111111111111111111

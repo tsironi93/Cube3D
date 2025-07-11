@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:58:47 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/07/11 16:43:26 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/11 19:11:29 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ mlx_texture_t	*select_texture(t_data *data, t_ray *ray)
 		texture = data->textures->north;
 	else if (ray->wall_side == SOUTH)
 		texture = data->textures->south;
-	else
+    else
 		texture = data->textures->west;
 	return (texture);
 }
@@ -96,11 +96,17 @@ void	draw_ceiling_floor_wall(t_data *data, int screen_x)
     texture = select_texture(data, data->ray);
 
 	double wall_x; // where exactly the wall was hit
-	if (data->ray->wall_side == NORTH_SOUTH)
-		wall_x = data->player->player_pos_x + data->ray->dist_camvec_wall * data->ray->ray_dir_x;
-	else
-		wall_x = data->player->player_pos_y + data->ray->dist_camvec_wall * data->ray->ray_dir_y;
-	wall_x -= floor(wall_x); // get fractional part (0.0 to 1.0)
+	// if (data->ray->wall_side == NORTH_SOUTH)
+	// 	wall_x = data->player->player_pos_x + data->ray->dist_camvec_wall * data->ray->ray_dir_x;
+	// else
+	// 	wall_x = data->player->player_pos_y + data->ray->dist_camvec_wall * data->ray->ray_dir_y;
+	// wall_x -= floor(wall_x); // get fractional part (0.0 to 1.0)
+
+    if (data->ray->wall_side == NORTH || data->ray->wall_side == SOUTH)
+        wall_x = data->player->player_pos_x + data->ray->dist_camvec_wall * data->ray->ray_dir_x;
+    else
+        wall_x = data->player->player_pos_y + data->ray->dist_camvec_wall * data->ray->ray_dir_y;
+    wall_x -= floor(wall_x); // get fractional part (0.0 to 1.0)
 
 	tex_x = (int)(wall_x * (double)texture->width);
 	// if ((data->ray->wall_side == EAST && data->ray->ray_dir_x > 0) ||
@@ -108,8 +114,6 @@ void	draw_ceiling_floor_wall(t_data *data, int screen_x)
     //     (data->ray->wall_side == NORTH && data->ray->ray_dir_y > 0) ||
     //     (data->ray->wall_side == SOUTH && data->ray->ray_dir_y < 0))
     //     tex_x = texture->width - tex_x - 1;
-
-
 
     step = (double)texture->height / (double)data->ray->wall_height;
 

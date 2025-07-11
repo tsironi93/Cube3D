@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:16:57 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/26 21:39:17 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/11 19:11:43 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 typedef enum s_wall_side
 {
-	EAST_WEST,
-	NORTH_SOUTH,
 	NORTH,
 	EAST,
 	SOUTH,

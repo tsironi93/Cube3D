@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:29:50 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/26 22:59:59 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/11 18:47:59 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,21 @@ void	advance_to_closest_grid_line(t_ray *ray, t_vector *vec)
 	{
 		ray->side_dist_x += ray->delta_dist_x;
 		vec->grid_map_x += ray->step_x;
-		ray->wall_side = EAST_WEST;
+		// ray->wall_side = EAST_WEST;
+		if (ray->step_x > 0)
+			ray->wall_side = EAST;
+		else
+			ray->wall_side = WEST;
 	}
 	else
 	{
 		ray->side_dist_y += ray->delta_dist_y;
 		vec->grid_map_y += ray->step_y;
-		ray->wall_side = NORTH_SOUTH;
+		// ray->wall_side = NORTH_SOUTH;
+		if (ray->step_y > 0)
+			ray->wall_side = SOUTH;
+		else
+			ray->wall_side = NORTH;
 	}
 }
 

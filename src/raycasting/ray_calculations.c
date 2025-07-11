@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:35:16 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/26 23:02:15 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/11 18:44:57 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,15 @@ void	calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 */
 void	calc_wall_height(t_data *data, t_ray *ray)
 {
-	if (ray->wall_side == EAST_WEST)
+	// if (ray->wall_side == EAST_WEST)
+	// 	ray->dist_camvec_wall = ray->side_dist_x - ray->delta_dist_x;
+	// else // south north, but split into 4 seperately -> north, south, east, west
+	// 	ray->dist_camvec_wall = ray->side_dist_y - ray->delta_dist_y;
+	if (ray->wall_side == EAST || ray->wall_side == WEST)
 		ray->dist_camvec_wall = ray->side_dist_x - ray->delta_dist_x;
-	else
+	else if (ray->wall_side == SOUTH || ray->wall_side == NORTH)
 		ray->dist_camvec_wall = ray->side_dist_y - ray->delta_dist_y;
+		
 	if (ray->dist_camvec_wall < 0.01)
 		ray->dist_camvec_wall = 0.01;
 	ray->wall_height = (int)data->height / ray->dist_camvec_wall;
