@@ -86,7 +86,7 @@ libft:
 	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
 
 $(NAME): $(OBJ)
-	@$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $(NAME) -fsanitize=address -fno-omit-frame-pointer
+	@$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $(NAME) #-fsanitize=address -fno-omit-frame-pointer
 
 #$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 #	@$(CC) $(CFLAGS) -c $< -o $@

@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/11 16:42:17 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/12 11:10:59 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-// # include "../libs/getnextline/get_next_line.h"
 # include "../includes/raycasting.h"
 
 //=====ASCII COLORS======
@@ -117,64 +116,62 @@ int		ft_isspace(int c);
 
 //================================VALIDATION====================================
 
-void				init_cube(int ac, char **av, t_data *data);
+void	init_cube(int ac, char **av, t_data *data);
+bool	flood_check(t_data *data, char **map, int y, int x);
+char	**clone_map(t_data *data, char **map);
+void	find_player_pos(t_data *data, char **map);
 
 //==================================ERROR=======================================
 
-void				ft_error(t_data *data, char *error, bool mlx_err);
+void	ft_error(t_data *data, char *error, bool mlx_err);
 
 //=================================COLORS=======================================
 
-int32_t				ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 
 //=================================RENDER=======================================
 
-void				render_minimap(void *param);
+void	render_minimap(void *param);
 
 //=================================HOOKS========================================
 
-void				ft_hook_keys(void *param);
-void				rotate_player(t_data *data, double rotation_speed);
-void				move_player_forward(t_data *data);
-void				move_player_backward(t_data *data);
-void				move_player_right(t_data *data);
-void				move_player_left(t_data *data);
+void	ft_hook_keys(void *param);
+void	rotate_player(t_data *data, double rotation_speed);
+void	move_player_forward(t_data *data);
+void	move_player_backward(t_data *data);
+void	move_player_right(t_data *data);
+void	move_player_left(t_data *data);
 
 //============================GARBAGE_COLLECTOR=================================
 
-void				*gc_malloc(t_gc *gc, size_t size);
-void				gc_destroy(t_gc *gc);
-t_gc				gc_new(void);
-void				gc_collect(t_gc *gc);
-char				*gc_strdup(t_gc *gc, const char *s);
-void				gc_add_root(t_gc *gc, void **ptr);
-char				*gc_strjoin(t_gc *gc, char *s1, char *s2);
-
-//=================================DEBUG========================================
-
-void				d(void);
+void	*gc_malloc(t_gc *gc, size_t size);
+void	gc_destroy(t_gc *gc);
+t_gc	gc_new(void);
+void	gc_collect(t_gc *gc);
+char	*gc_strdup(t_gc *gc, const char *s);
+void	gc_add_root(t_gc *gc, void **ptr);
+char	*gc_strjoin(t_gc *gc, char *s1, char *s2);
 
 //===============================RAYCASTING=====================================
 
-void				setup_player(t_data *data, t_vector *vec);
-void				raycasting(void *param);
-void				render_frame(void *param);
-void				init_structs(t_data *data);
-void				draw_images(t_data *data);
-bool				is_map_coordinates(int x, int y, t_data *data);
-void				debug_map_and_player(t_data *data);
-char				*get_next_line(int fd);
-bool				inside_of_walls(int x, int y, t_data *data);
-void				draw_ceiling_floor_wall(t_data *data, int screen_x);
-uint32_t			get_wall_color(t_ray *ray);
-void				calc_wall_height(t_data *data, t_ray *ray);
-void				run_dda_algorithm(t_data *data, t_ray *ray, t_vector *vec);
-void				prepare_dda(t_data *data, t_ray *ray, t_vector *vec);
-void				calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec,
-						int screen_x);
-bool				inside_of_walls(int x, int y, t_data *data);
-bool				is_map_coordinates(int x, int y, t_data *data);
-bool				is_wall_collision(t_data *data, float position_x,
-						float position_y);
+void	setup_player(t_data *data, t_vector *vec);
+void	raycasting(void *param);
+void	render_frame(void *param);
+void	init_structs(t_data *data);
+void	draw_images(t_data *data);
+bool	is_map_coordinates(int x, int y, t_data *data);
+void	debug_map_and_player(t_data *data);
+char	*get_next_line(int fd);
+bool	inside_of_walls(int x, int y, t_data *data);
+void	draw_ceiling_floor_wall(t_data *data, int screen_x);
+void	calc_wall_height(t_data *data, t_ray *ray);
+void	run_dda_algorithm(t_data *data, t_ray *ray, t_vector *vec);
+void	prepare_dda(t_data *data, t_ray *ray, t_vector *vec);
+void	calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec,
+			int screen_x);
+bool	inside_of_walls(int x, int y, t_data *data);
+bool	is_map_coordinates(int x, int y, t_data *data);
+bool	is_wall_collision(t_data *data, float position_x,
+			float position_y);
 
 #endif // !CUBE3D_H

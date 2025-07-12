@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:15:44 by itsiros           #+#    #+#             */
-/*   Updated: 2025/06/19 18:24:48 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/12 10:57:13 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	render_direction_ray(void *param)
 	i = -1;
 	while (++i < length)
 	{
-		// printf("distance to wall = %f\n", data->ray->dist_camvec_wall);
 		draw_x = (int)roundf(x);
 		draw_y = (int)roundf(y);
 		if (draw_x >= 0 && draw_x < data->width
@@ -59,7 +58,7 @@ static void	scale_image(t_data *data, int x, int y, int color)
 			if (minimap_x >= 0 && minimap_x < data->width
 				&& minimap_y >= 0 && minimap_y < data->height)
 				mlx_put_pixel(data->image, x * tile_size + i,
-				  y * tile_size + j, color);
+					y * tile_size + j, color);
 		}
 	}
 }
@@ -79,11 +78,9 @@ void	render_player(void *param)
 		j = -1;
 		while (++j < tile_height)
 		{
-			// if (data->player_pos[1] * tile_height + i + data->player_ofset_x > data->width
-			// 	|| data->player_pos[0] * tile_height + j + data->player_ofset_y > data->height)
-			// 	return ;
-			mlx_put_pixel(data->image, data->player->player_pos_x * tile_height + i,
-				data->player->player_pos_y * tile_height + j, ft_pixel(0, 255, 0, 255));
+			mlx_put_pixel(data->image, data->player->player_pos_x * tile_height
+				+ i, data->player->player_pos_y * tile_height + j,
+				ft_pixel(0, 255, 0, 255));
 		}
 	}
 }
@@ -106,7 +103,8 @@ static void	minimap(void *param)
 			else if (data->map[i][j] == 'N' || data->map[i][j] == 'S'
 				|| data->map[i][j] == 'E' || data->map[i][j] == 'W')
 				mlx_put_pixel(data->image, data->player->player_pos_x * 5 + i,
-				data->player->player_pos_y * 5 + j, ft_pixel(0, 255, 0, 255));
+					data->player->player_pos_y * 5 + j,
+					ft_pixel(0, 255, 0, 255));
 			else
 				scale_image(data, j, i, ft_pixel(0, 0, 0, 255));
 			j++;
@@ -115,7 +113,7 @@ static void	minimap(void *param)
 	}
 }
 
-void render_minimap(void *param)
+void	render_minimap(void *param)
 {
 	t_data	*data;
 

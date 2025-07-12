@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/11 16:42:57 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/12 10:52:39 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,6 @@ static void	import_textures(t_data *data)
 	data->textures->east = mlx_load_png(data->textures->east_texture);
 	if (!data->textures->east)
 		ft_error(data, "Failed to load east texture", true);
-	data->textures->n_img = mlx_texture_to_image(data->mlx, data->textures->north);
-	data->textures->s_img = mlx_texture_to_image(data->mlx, data->textures->south);
-	data->textures->w_img = mlx_texture_to_image(data->mlx, data->textures->west);
-	data->textures->e_img = mlx_texture_to_image(data->mlx, data->textures->east);
-	if (!data->textures->n_img || !data->textures->s_img
-		|| !data->textures->w_img || !data->textures->e_img)
-		ft_error(data, "Failed to convert texture to image", true);
 	data->textures->red_floor = ft_atoi(data->textures->floor_color[0]);
 	data->textures->green_floor = ft_atoi(data->textures->floor_color[1]);
 	data->textures->blue_floor = ft_atoi(data->textures->floor_color[2]);
@@ -48,10 +41,6 @@ static void	import_textures(t_data *data)
 	data->textures->green_ceiling = ft_atoi(data->textures->ceiling_color[1]);
 	data->textures->blue_ceiling = ft_atoi(data->textures->ceiling_color[2]);
 	printf("Textures loaded successfully.\n");
-	// printf("Floor color: R=%d, G=%d, B=%d\n",
-	// 	data->textures->red_floor, data->textures->green_floor, data->textures->blue_floor);
-	// printf("Ceiling color: R=%d, G=%d, B=%d\n",
-	// 	data->textures->red_ceiling, data->textures->green_ceiling, data->textures->blue_ceiling);
 }
 
 static void	init_mlx(t_data *data)
