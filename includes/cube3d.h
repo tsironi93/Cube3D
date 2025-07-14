@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/12 11:10:59 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/14 14:21:36 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,6 @@ typedef struct s_textures
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
 	mlx_texture_t	*east;
-	mlx_image_t		*n_img;
-	mlx_image_t		*s_img;
-	mlx_image_t		*w_img;
-	mlx_image_t		*e_img;
 	int				red_floor;
 	int				green_floor;
 	int				blue_floor;
@@ -91,23 +87,33 @@ typedef struct s_textures
 	int				blue_ceiling;
 }	t_textures;
 
+typedef struct s_wall
+{
+	int				tex_y;
+	int				tex_x;
+	double			step;
+	double			tex_pos;
+	double			wall_x;
+}	t_wall;
+
 typedef struct s_data
 {
-	mlx_t				*mlx;
-	mlx_image_t			*image;
-	struct s_textures	*textures;
-	int32_t				height;
-	int32_t				width;
-	char				**map;
-	int					map_width;
-	int					map_height;
-	int					player_pos[2];
-	float				player_ofset_x;
-	float				player_ofset_y;
-	t_player			*player;
-	t_ray				*ray;
-	t_vector			*vec;
-	t_gc				gc;
+	mlx_t		*mlx;
+	mlx_image_t	*image;
+	t_wall		*wall;
+	t_textures	*textures;
+	int32_t		height;
+	int32_t		width;
+	char		**map;
+	int			map_width;
+	int			map_height;
+	int			player_pos[2];
+	float		player_ofset_x;
+	float		player_ofset_y;
+	t_player	*player;
+	t_ray		*ray;
+	t_vector	*vec;
+	t_gc		gc;
 }	t_data;
 
 //==================================UTILS=======================================
@@ -120,14 +126,17 @@ void	init_cube(int ac, char **av, t_data *data);
 bool	flood_check(t_data *data, char **map, int y, int x);
 char	**clone_map(t_data *data, char **map);
 void	find_player_pos(t_data *data, char **map);
+void	fetch_map(t_data *data, char *line, char ***map);
 
 //==================================ERROR=======================================
 
 void	ft_error(t_data *data, char *error, bool mlx_err);
+void	error_checks(t_data *data);
 
 //=================================COLORS=======================================
 
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+int32_t	get_pixel_from_texture(mlx_texture_t *tex, int x, int y);
 
 //=================================RENDER=======================================
 
@@ -161,7 +170,7 @@ void	init_structs(t_data *data);
 void	draw_images(t_data *data);
 bool	is_map_coordinates(int x, int y, t_data *data);
 void	debug_map_and_player(t_data *data);
-char	*get_next_line(int fd);
+char	*get_next_line(int fd, t_data *data);
 bool	inside_of_walls(int x, int y, t_data *data);
 void	draw_ceiling_floor_wall(t_data *data, int screen_x);
 void	calc_wall_height(t_data *data, t_ray *ray);

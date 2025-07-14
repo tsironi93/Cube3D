@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/12 13:27:09 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/14 14:27:35 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,101 +53,26 @@ static bool	validate_syntax(char **map)
 	return (true);
 }
 
-// void	alloc_map(int *i, t_data *data, char *map_buffer, size_t max_len)
-// {
-// 	int		j;
-// 	char	**map;
-//
-// 	data->map = map;
-// 	j = -1;
-// 	*map = gc_malloc(&data->gc, (*i + 1) * sizeof(char *));
-// 	while (++j < *i)
-// 	{
-// 		(*map)[j] = gc_malloc(&data->gc, max_len + 1);
-// 		ft_memset((*map)[j], ' ', max_len);
-// 		ft_memcpy((*map)[j], map_buffer[j], ft_strlen(map_buffer[j]));
-// 		(*map)[j][max_len] = '\0';
-// 	}
-// 	(*map)[j] = NULL;
-// 	data->map_height = *i;
-// 	*i = -1;
-// }
-//
-// static void	fetch_map(t_data *data, char *line, char ***map)
-// {
-// 	static char		*map_buffer[1024];
-// 	static int		i;
-// 	int				j;
-// 	char			*new_line;
-// 	static size_t	max_len;
-//
-// 	j = -1;
-// 	if ((!line && i == 0) || i < 0)
-// 		return ;
-// 	if (!line && i != 0)
-// 	{
-// 		alloc_map(&i, data, map_buffer, max_len);
-// 		*map = gc_malloc(&data->gc, (i + 1) * sizeof(char *));
-// 		while (++j < i)
-// 		{
-// 			(*map)[j] = gc_malloc(&data->gc, max_len + 1);
-// 			ft_memset((*map)[j], ' ', max_len);
-// 			ft_memcpy((*map)[j], map_buffer[j], ft_strlen(map_buffer[j]));
-// 			(*map)[j][max_len] = '\0';
-// 		}
-// 		(*map)[j] = NULL;
-// 		data->map_height = i;
-// 		i = -1;
-// 	}
-// 	else
-// 	{
-// 		new_line = ft_strtrim(line, "\n");
-// 		if (max_len < ft_strlen(new_line))
-// 			max_len = ft_strlen(new_line);
-// 		map_buffer[i++] = new_line;
-// 	}
-// }
-
-static void	store_line(char *line, char *map_buffer[], int *i, size_t *max_len)
+static void	fetch_textures(t_data *data, char *line)
 {
-	char	*new_line;
-
-	new_line = ft_strtrim(line, "\n");
-	if (*max_len < ft_strlen(new_line))
-		*max_len = ft_strlen(new_line);
-	map_buffer[(*i)++] = new_line;
-}
-
-static void	finalize_map(t_data *data, char ***map, char *map_buffer[], int *i, size_t max_len)
-{
-	int	j;
-
-	j = -1;
-	*map = gc_malloc(&data->gc, (*i + 1) * sizeof(char *));
-	while (++j < *i)
-	{
-		(*map)[j] = gc_malloc(&data->gc, max_len + 1);
-		ft_memset((*map)[j], ' ', max_len);
-		ft_memcpy((*map)[j], map_buffer[j], ft_strlen(map_buffer[j]));
-		(*map)[j][max_len] = '\0';
-	}
-	(*map)[j] = NULL;
-	data->map_height = *i;
-	*i = -1;
-}
-
-static void	fetch_map(t_data *data, char *line, char ***map)
-{
-	static char		*map_buffer[1024];
-	static int		i;
-	static size_t	max_len;
-
-	if ((!line && i == 0) || i < 0)
-		return ;
-	if (!line && i != 0)
-		finalize_map(data, map, map_buffer, &i, max_len);
-	else
-		store_line(line, map_buffer, &i, &max_len);
+	if (ft_strnstr(line, "NO", ft_strlen(line)))
+		texture_and_colors(data, ft_strnstr(line, "NO",
+				ft_strlen(line)) + 2, NORTH_TEXTURE);
+	else if (ft_strnstr(line, "SO", ft_strlen(line)))
+		texture_and_colors(data, ft_strnstr(line, "SO",
+				ft_strlen(line)) + 2, SOUTH_TEXTURE);
+	else if (ft_strnstr(line, "WE", ft_strlen(line)))
+		texture_and_colors(data, ft_strnstr(line, "WE",
+				ft_strlen(line)) + 2, WEST_TEXTURE);
+	else if (ft_strnstr(line, "EA", ft_strlen(line)))
+		texture_and_colors(data, ft_strnstr(line, "EA",
+				ft_strlen(line)) + 2, EAST_TEXTURE);
+	else if (ft_strnstr(line, "F", ft_strlen(line)))
+		texture_and_colors(data, ft_strnstr(line, "F",
+				ft_strlen(line)) + 1, FLOOR_COLOR);
+	else if (ft_strnstr(line, "C", ft_strlen(line)))
+		texture_and_colors(data, ft_strnstr(line, "C",
+				ft_strlen(line)) + 1, CEILING_COLOR);
 }
 
 static void	validate_file(int fd, t_data *data)
@@ -156,29 +81,18 @@ static void	validate_file(int fd, t_data *data)
 
 	while (MALAKA)
 	{
-		line = get_next_line(fd);
+		line = get_next_line(fd, data);
 		if (!line)
 			break ;
 		if (!ft_strcmp(line, "\n"))
 			continue ;
-		if (ft_strnstr(line, "NO", ft_strlen(line)))
-			texture_and_colors(data, ft_strnstr(line, "NO",
-					ft_strlen(line)) + 2, NORTH_TEXTURE);
-		else if (ft_strnstr(line, "SO", ft_strlen(line)))
-			texture_and_colors(data, ft_strnstr(line, "SO",
-					ft_strlen(line)) + 2, SOUTH_TEXTURE);
-		else if (ft_strnstr(line, "WE", ft_strlen(line)))
-			texture_and_colors(data, ft_strnstr(line, "WE",
-					ft_strlen(line)) + 2, WEST_TEXTURE);
-		else if (ft_strnstr(line, "EA", ft_strlen(line)))
-			texture_and_colors(data, ft_strnstr(line, "EA",
-					ft_strlen(line)) + 2, EAST_TEXTURE);
-		else if (ft_strnstr(line, "F", ft_strlen(line)))
-			texture_and_colors(data, ft_strnstr(line, "F",
-					ft_strlen(line)) + 1, FLOOR_COLOR);
-		else if (ft_strnstr(line, "C", ft_strlen(line)))
-			texture_and_colors(data, ft_strnstr(line, "C",
-					ft_strlen(line)) + 1, CEILING_COLOR);
+		if (ft_strnstr(line, "NO", ft_strlen(line))
+			|| ft_strnstr(line, "SO", ft_strlen(line))
+			|| ft_strnstr(line, "WE", ft_strlen(line))
+			|| ft_strnstr(line, "EA", ft_strlen(line))
+			|| ft_strnstr(line, "C", ft_strlen(line))
+			|| ft_strnstr(line, "F", ft_strlen(line)))
+			fetch_textures(data, line);
 		else
 			fetch_map(data, line, &data->map);
 	}
@@ -200,12 +114,7 @@ void	init_cube(int ac, char **av, t_data *data)
 	data->textures = gc_malloc(&data->gc, sizeof(t_textures));
 	ft_bzero(data->textures, sizeof(t_textures));
 	validate_file(fd, data);
-	if (data->textures->north_texture == NULL
-		|| data->textures->south_texture == NULL
-		|| data->textures->east_texture == NULL
-		|| data->textures->floor_color == NULL
-		|| data->textures->ceiling_color == NULL)
-		ft_error(data, "Init error: Missing textures or colors", false);
+	error_checks(data);
 	fetch_map(data, NULL, &data->map);
 	if (!validate_syntax(data->map))
 		ft_error(data, "Wrong characters found in the map", false);

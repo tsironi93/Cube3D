@@ -6,13 +6,13 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:39:35 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/21 20:41:02 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/12 17:55:07 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3d.h"
 
-void	init_ray(t_data *data)
+static void	init_ray(t_data *data)
 {
 	data->ray = gc_malloc(&data->gc, sizeof(t_ray));
 	data->ray->camera_x = 0;
@@ -28,7 +28,7 @@ void	init_ray(t_data *data)
 	data->ray->wall_side = 0;
 }
 
-void	init_vec(t_data *data)
+static void	init_vec(t_data *data)
 {
 	data->vec = gc_malloc(&data->gc, sizeof(t_vector));
 	data->vec->dir_x = 0;

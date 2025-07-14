@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/12 10:52:39 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/13 15:46:36 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	import_textures(t_data *data)
 	data->textures->red_ceiling = ft_atoi(data->textures->ceiling_color[0]);
 	data->textures->green_ceiling = ft_atoi(data->textures->ceiling_color[1]);
 	data->textures->blue_ceiling = ft_atoi(data->textures->ceiling_color[2]);
-	printf("Textures loaded successfully.\n");
+	printf(BOLD YELLOW "Textures loaded successfully.\n" RESET);
 }
 
 static void	init_mlx(t_data *data)

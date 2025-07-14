@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:58:47 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/07/12 10:49:11 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/13 12:34:48 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,68 +35,58 @@ mlx_texture_t	*select_texture(t_data *data, t_ray *ray)
 	return (texture);
 }
 
-uint32_t	get_pixel_from_texture(mlx_texture_t *tex, int x, int y)
+static void	texture_calcs(t_data *data, mlx_texture_t *texture)
 {
-	int	index;
+	if (data->ray->wall_side == NORTH_SOUTH)
+		data->wall->wall_x = data->player->player_pos_x
+			+ data->ray->dist_camvec_wall * data->ray->ray_dir_x;
+	else
+		data->wall->wall_x = data->player->player_pos_y
+			+ data->ray->dist_camvec_wall * data->ray->ray_dir_y;
+	data->wall->wall_x -= floor(data->wall->wall_x);
+	data->wall->tex_x = (int)(data->wall->wall_x * (double)texture->width);
+// if ((data->ray->wall_side == EAST && data->ray->ray_dir_x > 0) ||
+//     (data->ray->wall_side == WEST && data->ray->ray_dir_x < 0) ||
+//     (data->ray->wall_side == NORTH && data->ray->ray_dir_y > 0) ||
+//     (data->ray->wall_side == SOUTH && data->ray->ray_dir_y < 0))
+//     tex_x = texture->width - tex_x - 1;
+	data->wall->step = (double)texture->height / (double)data->ray->wall_height;
+	data->wall->tex_pos = (data->ray->draw_start - (double)data->height / 2.0
+			+ data->ray->wall_height / 2.0) * data->wall->step;
+}
 
-	if (x < 0 || y < 0 || x >= (int)tex->width || y >= (int)tex->height)
-		return (0xFF00FFFF);
-	index = (y * tex->width + x) * 4;
-	return (((uint32_t)tex->pixels[index] << 24)
-		| ((uint32_t)tex->pixels[index + 1] << 16)
-		| ((uint32_t)tex->pixels[index + 2] << 8)
-		| ((uint32_t)tex->pixels[index + 3]));
+static void	draw_y(t_data *data, mlx_texture_t *texture, int screen_x,
+				int screen_y)
+{
+	int32_t	color;
+
+	data->wall->tex_y = (int)data->wall->tex_pos;
+	if (data->wall->tex_y >= (int)texture->height)
+		data->wall->tex_y = texture->height - 1;
+	data->wall->tex_pos += data->wall->step;
+	color = get_pixel_from_texture(texture, data->wall->tex_x,
+			data->wall->tex_y);
+	mlx_put_pixel(data->image, screen_x, screen_y, color);
 }
 
 void	draw_ceiling_floor_wall(t_data *data, int screen_x)
 {
 	int				screen_y;
 	mlx_texture_t	*texture;
-	int				tex_x;
-	double			step, tex_pos;
-	uint32_t		color;
 
 	screen_y = 0;
 	while (screen_y < data->ray->draw_start)
-	{
-		mlx_put_pixel(data->image, screen_x, screen_y,
+		mlx_put_pixel(data->image, screen_x, screen_y++,
 			ft_pixel(data->textures->red_ceiling,
 				data->textures->green_ceiling, data->textures->blue_ceiling,
 				255));
-		screen_y++;
-	}
 	texture = select_texture(data, data->ray);
-	double wall_x;
-	if (data->ray->wall_side == NORTH_SOUTH)
-		wall_x = data->player->player_pos_x + data->ray->dist_camvec_wall * data->ray->ray_dir_x;
-	else
-		wall_x = data->player->player_pos_y + data->ray->dist_camvec_wall * data->ray->ray_dir_y;
-	wall_x -= floor(wall_x);
-	tex_x = (int)(wall_x * (double)texture->width);
-	// if ((data->ray->wall_side == EAST && data->ray->ray_dir_x > 0) ||
-    //     (data->ray->wall_side == WEST && data->ray->ray_dir_x < 0) ||
-    //     (data->ray->wall_side == NORTH && data->ray->ray_dir_y > 0) ||
-    //     (data->ray->wall_side == SOUTH && data->ray->ray_dir_y < 0))
-    //     tex_x = texture->width - tex_x - 1;
-	step = (double)texture->height / (double)data->ray->wall_height;
-	tex_pos = (data->ray->draw_start - (double)data->height / 2.0 + data->ray->wall_height / 2.0) * step;
+	texture_calcs(data, texture);
 	screen_y = data->ray->draw_start;
-	int tex_y;
 	while (screen_y <= data->ray->draw_end)
-	{
-		tex_y = (int)tex_pos;
-		if (tex_y >= (int)texture->height)
-			tex_y = texture->height - 1;
-		tex_pos += step;
-		color = get_pixel_from_texture(texture, tex_x, tex_y);
-		mlx_put_pixel(data->image, screen_x, screen_y, color);
-		screen_y++;
-	}
+		draw_y(data, texture, screen_x, screen_y++);
 	while (screen_y < data->height)
-	{
-		mlx_put_pixel(data->image, screen_x, screen_y,
+		mlx_put_pixel(data->image, screen_x, screen_y++,
 			ft_pixel(data->textures->red_floor, data->textures->green_floor,
 				data->textures->blue_floor, 255));
-		screen_y++;
-	}
 }
