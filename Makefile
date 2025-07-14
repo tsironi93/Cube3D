@@ -3,7 +3,7 @@ NAME			=	cub3D
 # BONUS_NAME		=	_bonus
 
 CC				=	cc
-CFLAGS			=	-Wall -Wextra -Werror -Ofast -MMD #-g -fsanitize=address -fno-omit-frame-pointer
+CFLAGS			=	-Wall -Wextra -Werror -Ofast -MMD -g #-fsanitize=address -fno-omit-frame-pointer
 MLXFLAGS		=	#-DDEBUG=1 -DGLFW_FETCH=OFF
 
 LIBFT_DIR		=	./libs/libft

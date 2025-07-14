@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/14 14:27:35 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/14 16:58:18 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,25 @@
 
 static void	texture_and_colors(t_data *data, char *line, t_map_data ref)
 {
-	while (ft_isspace(*line))
-		line++;
-	line = ft_strtrim(line, "\n");
+	char	*ptr;
+
+	ptr = line;
+	while (ft_isspace(*ptr))
+		ptr++;
+	ptr = ft_strtrim(ptr, "\n");
 	if (ref == NORTH_TEXTURE)
-		data->textures->north_texture = gc_strdup(&data->gc, line);
+		data->textures->north_texture = gc_strdup(&data->gc, ptr);
 	else if (ref == SOUTH_TEXTURE)
-		data->textures->south_texture = gc_strdup(&data->gc, line);
+		data->textures->south_texture = gc_strdup(&data->gc, ptr);
 	else if (ref == WEST_TEXTURE)
-		data->textures->west_texture = gc_strdup(&data->gc, line);
+		data->textures->west_texture = gc_strdup(&data->gc, ptr);
 	else if (ref == EAST_TEXTURE)
-		data->textures->east_texture = gc_strdup(&data->gc, line);
+		data->textures->east_texture = gc_strdup(&data->gc, ptr);
 	else if (ref == FLOOR_COLOR)
-		data->textures->floor_color = ft_split(line, ',');
+		data->textures->floor_color = ft_split(ptr, ',');
 	else if (ref == CEILING_COLOR)
-		data->textures->ceiling_color = ft_split(line, ',');
+		data->textures->ceiling_color = ft_split(ptr, ',');
+	free(ptr);
 }
 
 static bool	validate_syntax(char **map)
@@ -79,8 +83,11 @@ static void	validate_file(int fd, t_data *data)
 {
 	char	*line;
 
+	line = NULL;
 	while (MALAKA)
 	{
+		if (line)
+			free(line);
 		line = get_next_line(fd, data);
 		if (!line)
 			break ;

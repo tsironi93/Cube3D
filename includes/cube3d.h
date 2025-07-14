@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:32:19 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/14 14:21:36 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/14 16:31:02 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ void	gc_collect(t_gc *gc);
 char	*gc_strdup(t_gc *gc, const char *s);
 void	gc_add_root(t_gc *gc, void **ptr);
 char	*gc_strjoin(t_gc *gc, char *s1, char *s2);
+char	**gc_split(t_gc *gc, const char *s, char c);
 
 //===============================RAYCASTING=====================================
 

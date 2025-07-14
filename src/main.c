@@ -6,18 +6,36 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/13 15:46:36 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/14 18:32:51 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3d.h"
 
+static void	check_leaks(void)
+{
+	char	cmd[256];
+
+	snprintf(cmd, sizeof(cmd), "leaks %s", getprogname());
+	system(cmd);
+}
+
 static void	clean_textures(t_data *data)
 {
+	int	i;
+
 	mlx_delete_texture(data->textures->north);
 	mlx_delete_texture(data->textures->south);
 	mlx_delete_texture(data->textures->west);
 	mlx_delete_texture(data->textures->east);
+	i = -1;
+	while (data->textures->ceiling_color[++i])
+		free(data->textures->ceiling_color[i]);
+	free(data->textures->ceiling_color);
+	i = -1;
+	while (data->textures->floor_color[++i])
+		free(data->textures->floor_color[i]);
+	free(data->textures->floor_color);
 }
 
 static void	import_textures(t_data *data)
@@ -34,12 +52,31 @@ static void	import_textures(t_data *data)
 	data->textures->east = mlx_load_png(data->textures->east_texture);
 	if (!data->textures->east)
 		ft_error(data, "Failed to load east texture", true);
+	if (!data->textures->floor_color[0] || !data->textures->floor_color[1]
+		|| !data->textures->floor_color[2] || !data->textures->ceiling_color[0]
+		|| !data->textures->ceiling_color[1]
+		|| !data->textures->ceiling_color[2])
+	{
+		clean_textures(data);
+		ft_error(data, "Invalid floor or ceiling color", true);
+	}
 	data->textures->red_floor = ft_atoi(data->textures->floor_color[0]);
 	data->textures->green_floor = ft_atoi(data->textures->floor_color[1]);
 	data->textures->blue_floor = ft_atoi(data->textures->floor_color[2]);
 	data->textures->red_ceiling = ft_atoi(data->textures->ceiling_color[0]);
 	data->textures->green_ceiling = ft_atoi(data->textures->ceiling_color[1]);
 	data->textures->blue_ceiling = ft_atoi(data->textures->ceiling_color[2]);
+	printf(BOLD YELLOW "Loading textures...\n" RESET);
+	printf(BOLD YELLOW "North texture: %s\n" RESET, data->textures->north_texture);
+	printf(BOLD YELLOW "South texture: %s\n" RESET, data->textures->south_texture);
+	printf(BOLD YELLOW "West texture: %s\n" RESET, data->textures->west_texture);
+	printf(BOLD YELLOW "East texture: %s\n" RESET, data->textures->east_texture);
+	printf(BOLD YELLOW "Floor color: %s, %s, %s\n" RESET,
+		data->textures->floor_color[0], data->textures->floor_color[1],
+		data->textures->floor_color[2]);
+	printf(BOLD YELLOW "Ceiling color: %d, %d, %d\n" RESET,
+		data->textures->red_ceiling, data->textures->green_ceiling,
+		data->textures->blue_ceiling);
 	printf(BOLD YELLOW "Textures loaded successfully.\n" RESET);
 }
 
@@ -72,9 +109,9 @@ int32_t	main(int ac, char **av)
 
 	init_cube(ac, av, &data);
 	init_structs(&data);
+	atexit(check_leaks);
 	init_mlx(&data);
 	setup_player(&data, data.vec);
-	mlx_put_pixel(data.image, 0, 0, 0xFF0000FF);
 	mlx_loop_hook(data.mlx, raycasting, &data);
 	mlx_loop_hook(data.mlx, render_minimap, &data);
 	mlx_loop_hook(data.mlx, ft_hook_keys, &data);

@@ -6,13 +6,13 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:39:50 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/07/14 14:24:28 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/14 16:44:16 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*strcpy_til_newline(char *buffer, t_data *data)
+char	*strcpy_til_newline(char *buffer)
 {
 	int		i;
 	int		len;
@@ -27,7 +27,7 @@ char	*strcpy_til_newline(char *buffer, t_data *data)
 			break ;
 		i++;
 	}
-	line = gc_malloc(&data->gc, sizeof(char) * (len + 1));
+	line = malloc(sizeof(char) * (len + 1));
 	if (!line)
 		return (NULL);
 	if (buffer[i] == '\0')
@@ -122,7 +122,7 @@ char	*get_buffer(char buffer[], int fd)
 	return (read_line);
 }
 
-char	*get_next_line(int fd, t_data *data)
+char	*get_next_line(int fd)
 {
 	char		*line;
 	char		*read_line;
@@ -134,7 +134,7 @@ char	*get_next_line(int fd, t_data *data)
 		return (NULL);
 	}
 	if (ft_char_in_string(buffer, '\n') >= 0)
-		line = strcpy_til_newline(buffer, data);
+		line = strcpy_til_newline(buffer);
 	else
 	{
 		read_line = get_buffer(buffer, fd);

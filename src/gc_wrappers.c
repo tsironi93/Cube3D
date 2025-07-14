@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 11:47:25 by ckappe            #+#    #+#             */
-/*   Updated: 2025/06/06 18:15:23 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:30:20 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,28 @@ char	*gc_strjoin(t_gc *gc, char *s1, char *s2)
 	obj->next = gc->objects;
 	gc->objects = obj;
 	return (joined);
+}
+
+char	**gc_split(t_gc *gc, const char *s, char c)
+{
+	char	**split;
+	t_gcobj	*obj;
+
+	split = ft_split(s, c);
+	if (!split)
+	{
+		perror("split failed");
+		exit(1);
+	}
+	obj = malloc(sizeof(t_gcobj));
+	if (!obj)
+	{
+		perror("malloc GCObject failed");
+		exit(1);
+	}
+	obj->ptr = split;
+	obj->marked = 0;
+	obj->next = gc->objects;
+	gc->objects = obj;
+	return (split);
 }
