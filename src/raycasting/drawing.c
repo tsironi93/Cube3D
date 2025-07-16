@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:58:47 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/07/13 12:34:48 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/16 15:35:29 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,35 +24,33 @@ mlx_texture_t	*select_texture(t_data *data, t_ray *ray)
 {
 	mlx_texture_t	*texture;
 
-	if (ray->wall_side == EAST)
+	if (ray->wall_side == SOUTH)
 		texture = data->textures->east;
 	else if (ray->wall_side == NORTH)
 		texture = data->textures->north;
-	else if (ray->wall_side == SOUTH)
+	else if (ray->wall_side == EAST)
 		texture = data->textures->south;
 	else
 		texture = data->textures->west;
 	return (texture);
 }
 
-static void	texture_calcs(t_data *data, mlx_texture_t *texture)
+static void	texture_calcs(t_data *data, mlx_texture_t *texture, t_wall *wall)
 {
-	if (data->ray->wall_side == NORTH_SOUTH)
-		data->wall->wall_x = data->player->player_pos_x
-			+ data->ray->dist_camvec_wall * data->ray->ray_dir_x;
-	else
-		data->wall->wall_x = data->player->player_pos_y
-			+ data->ray->dist_camvec_wall * data->ray->ray_dir_y;
-	data->wall->wall_x -= floor(data->wall->wall_x);
-	data->wall->tex_x = (int)(data->wall->wall_x * (double)texture->width);
-// if ((data->ray->wall_side == EAST && data->ray->ray_dir_x > 0) ||
-//     (data->ray->wall_side == WEST && data->ray->ray_dir_x < 0) ||
-//     (data->ray->wall_side == NORTH && data->ray->ray_dir_y > 0) ||
-//     (data->ray->wall_side == SOUTH && data->ray->ray_dir_y < 0))
-//     tex_x = texture->width - tex_x - 1;
-	data->wall->step = (double)texture->height / (double)data->ray->wall_height;
-	data->wall->tex_pos = (data->ray->draw_start - (double)data->height / 2.0
-			+ data->ray->wall_height / 2.0) * data->wall->step;
+    if (data->ray->wall_side == NORTH || data->ray->wall_side == SOUTH)
+        wall->wall_x = data->player->player_pos_x + data->ray->dist_camvec_wall * data->ray->ray_dir_x;
+    else
+        wall->wall_x = data->player->player_pos_y + data->ray->dist_camvec_wall * data->ray->ray_dir_y;
+	wall->wall_x -= floor(data->wall->wall_x);
+	wall->tex_x = (int)(wall->wall_x * (double)texture->width);
+	if ((data->ray->wall_side == EAST && data->ray->ray_dir_x > 0) ||
+		(data->ray->wall_side == WEST && data->ray->ray_dir_x < 0) ||
+		(data->ray->wall_side == NORTH && data->ray->ray_dir_y > 0) ||
+		(data->ray->wall_side == SOUTH && data->ray->ray_dir_y < 0))
+		wall->tex_x = texture->width - wall->tex_x - 1;
+	wall->step = (double)texture->height / (double)data->ray->wall_height;
+	wall->tex_pos = (data->ray->draw_start - (double)data->height / 2.0
+			+ data->ray->wall_height / 2.0) * wall->step;
 }
 
 static void	draw_y(t_data *data, mlx_texture_t *texture, int screen_x,
@@ -73,7 +71,9 @@ void	draw_ceiling_floor_wall(t_data *data, int screen_x)
 {
 	int				screen_y;
 	mlx_texture_t	*texture;
+	t_wall			wall;
 
+	data->wall = &wall;
 	screen_y = 0;
 	while (screen_y < data->ray->draw_start)
 		mlx_put_pixel(data->image, screen_x, screen_y++,
@@ -81,7 +81,7 @@ void	draw_ceiling_floor_wall(t_data *data, int screen_x)
 				data->textures->green_ceiling, data->textures->blue_ceiling,
 				255));
 	texture = select_texture(data, data->ray);
-	texture_calcs(data, texture);
+	texture_calcs(data, texture, &wall);
 	screen_y = data->ray->draw_start;
 	while (screen_y <= data->ray->draw_end)
 		draw_y(data, texture, screen_x, screen_y++);

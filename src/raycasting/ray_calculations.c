@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_calculations.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pauladrettas <pauladrettas@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:35:16 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/26 23:02:15 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:31:26 by pauladretta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 #include "../../includes/raycasting.h"
 
 /*
-setup/calculate ray position and direction for each column at every frame
-creates a set of rays fanning out from the player's position to simulate 
-the 3D perspective.
--> cast a ray for every pixel of the screens width
-deltaDistX: distance ray has to travel from 1 x-side to the next x-side,
-deltaDistY: from 1 y-side to the next y-side.
-to travel to cross one full tile along the grid
- -> makes sure to always step forward in distance
-setup grid stepping distances at per-ray (per column)
-fabs: returns absolute value of a double
+1. calculates the relative horizontal position of the current screen column (camera_x)
+2. calculates the direction of the ray 
+		vec->dir_x & vec->dir_y:  direction the player is facing
+		vec->plane_x & vec->plane_y: a vector perpendicular to the player direction
+									(represents 2D "camera plane" (like FOV)
+	to avoid fish-eye effect (instead of calculating with players and wall position)
+3. calculates how far the ray has to go along the ray direction to move across a grid line
+		delta_dist_x & delta_dist_y
+note: essential for DDA step where ray moves through the map grid
+note: 1e30 is used to avoid division by 0 when ray goes straight vertically/horizontally
 */
 void	calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 {
@@ -41,24 +41,20 @@ void	calc_ray_pos_dir(t_data *data, t_ray *ray, t_vector *vec, int screen_x)
 }
 
 /*
-- calculate	distance of the ray to the wall
--> to calculate	how high the wall has to be drawn after
-- to eliminate fish	eye effect: calc distance from plane to wall,
-		NOT player to wall
-- dist_camvec_wall: distance btw wall and camera vector
-// mininum distance to prevent division by 0 (NEW)
-// calculates how tall wall should appear on screen 
-(closer walls = larger wall height)
-// Calculates where to draw the wall
-// Limits to screen bounds
-// making sure drawing of line doesnt go off screen
+calculates the height of the wall line based on how far ray traveled 
+and figures out which part of the screen it should be drawn on to create 3D effect. 
+1. uses the distance to the wall to compute how high the wall appears (close = tall, far = short)
+2. calculates where the wall should start and end vertically
+3. clamps to screen bounds
+note: mininum distance to prevent division by 0 
 */
 void	calc_wall_height(t_data *data, t_ray *ray)
 {
-	if (ray->wall_side == EAST_WEST)
+	if (ray->wall_side == EAST || ray->wall_side == WEST)
 		ray->dist_camvec_wall = ray->side_dist_x - ray->delta_dist_x;
-	else
+	else if (ray->wall_side == SOUTH || ray->wall_side == NORTH)
 		ray->dist_camvec_wall = ray->side_dist_y - ray->delta_dist_y;
+		
 	if (ray->dist_camvec_wall < 0.01)
 		ray->dist_camvec_wall = 0.01;
 	ray->wall_height = (int)data->height / ray->dist_camvec_wall;

@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:29:50 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/07/12 18:34:09 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/16 14:58:11 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,11 @@ void	set_step_direction_x(t_data *data, t_ray *ray, t_vector *vec);
 void	set_step_direction_y(t_data *data, t_ray *ray, t_vector *vec);
 
 /*
-implements the DDA (Digital Differential Analyzer) algorithm 
-to find where a ray hits a wall.
-continues steppung until hiting a wall or safety limit
-- steps through the map grid, one cell at a time, 
-  until the ray hits a wall OR goes out of bounds.
-Where: Which grid cell contains the wall
-Distance: How far the ray traveled (via side_dist values)
-Wall Side: Whether it's a north/south or east/west facing wall
-TODO: naming of t_vector not vec but more descriptive of a vector
+runs the DDA loop to walk through the map grid until a wall is hit by the ray.
+1. repeatedly steps from one grid square to the next until a wall is hit.
+2. chooses x or y step depending on which is closer (side_dist_x/y).
+note: max_iterations to prevent infinite loops (steps from one end to the other)
+	  ex. 10×10 map would have max_iterations = 20
 */
 void	run_dda_algorithm(t_data *data, t_ray *ray, t_vector *vec)
 {
@@ -48,28 +44,41 @@ void	run_dda_algorithm(t_data *data, t_ray *ray, t_vector *vec)
 	}
 }
 
+/*
+moves the ray one step forward in the map, 
+choosing the closest grid edge (x or y) and records the wall direction.
+1. moves in x or y direction, whichever is closer
+2. updates side_dist for next step
+3. sets which wall was hit (N/S/E/W)
+*/
 void	advance_to_closest_grid_line(t_ray *ray, t_vector *vec)
 {
 	if (ray->side_dist_x < ray->side_dist_y)
 	{
+		if (ray->step_x > 0)
+			ray->wall_side = EAST;
+		else
+			ray->wall_side = WEST;
 		ray->side_dist_x += ray->delta_dist_x;
 		vec->grid_map_x += ray->step_x;
-		ray->wall_side = EAST_WEST;
 	}
 	else
 	{
+		if (ray->step_y > 0)
+			ray->wall_side = SOUTH;
+		else
+			ray->wall_side = NORTH;
 		ray->side_dist_y += ray->delta_dist_y;
 		vec->grid_map_y += ray->step_y;
-		ray->wall_side = NORTH_SOUTH;
 	}
 }
 
 /*
-1. Setting the step direction (left/right or up/down).
-2. Calculating how far the ray has to travel to hit
-the first vertical or horizontal grid line.
-// resetting grid position for each ray (NEW)
-// since DDA algo modifies these values, so have to start fresh for each ray
+sets up initial values for the grid traversal using DDA, 
+based on the ray direction & player position.
+1. determines which box/grid the player is in
+2. calculates whether the ray goes left/right or up/down (step_x, step_y)
+3. prepares the distance to the first grid/wall hit (side_dist_x/y) in helper fts. 
 */
 void	prepare_dda(t_data *data, t_ray *ray, t_vector *vec)
 {

@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:04:35 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/07/12 17:58:40 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/16 14:23:27 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,15 @@
 
 /*
 main raycasting function 
-- casts a single ray per iteration
+casts a single ray per iteration
+- loops through each screen column, calculates where ray hits wall (DDA),
+   how tall to draw the wall, and draws that vertical line including floor and ceiling
 */
-// static bool	debug_printed = false;
-// // ***DEBUG FT******
-// if (!debug_printed)
-// {
-// 	debug_map_and_player(data);
-// 	debug_printed = true;
-// }
-// // ***END******
 void	raycasting(void *param)
 {
-	t_data	*data;
-	int		screen_x;
-
+	t_data		*data;
 	data = (t_data *)param;
+	int screen_x;
 	screen_x = 0;
 	while (screen_x < data->width)
 	{
