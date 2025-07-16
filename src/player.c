@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 14:07:20 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/06/26 23:03:12 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:46:40 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	set_player_north(t_vector *vec)
 	vec->plane_y = 0;
 }
 
-static void	set_player_south(t_vector *vec)
+static void	set_player_east(t_vector *vec)
 {
 	vec->dir_x = 0;
 	vec->dir_y = 1;
@@ -57,7 +57,7 @@ static void	set_player_south(t_vector *vec)
 	vec->plane_y = 0;
 }
 
-static void	set_player_east(t_vector *vec)
+static void	set_player_south(t_vector *vec)
 {
 	vec->dir_x = 1;
 	vec->dir_y = 0;

@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:58:47 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/07/11 19:11:29 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:47:44 by pdrettas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,11 @@ void	draw_ceiling_floor_wall(t_data *data, int screen_x)
     wall_x -= floor(wall_x); // get fractional part (0.0 to 1.0)
 
 	tex_x = (int)(wall_x * (double)texture->width);
-	// if ((data->ray->wall_side == EAST && data->ray->ray_dir_x > 0) ||
-    //     (data->ray->wall_side == WEST && data->ray->ray_dir_x < 0) ||
-    //     (data->ray->wall_side == NORTH && data->ray->ray_dir_y > 0) ||
-    //     (data->ray->wall_side == SOUTH && data->ray->ray_dir_y < 0))
-    //     tex_x = texture->width - tex_x - 1;
+	if ((data->ray->wall_side == EAST && data->ray->ray_dir_x > 0) ||
+        (data->ray->wall_side == WEST && data->ray->ray_dir_x < 0) ||
+        (data->ray->wall_side == NORTH && data->ray->ray_dir_y > 0) ||
+        (data->ray->wall_side == SOUTH && data->ray->ray_dir_y < 0))
+        tex_x = texture->width - tex_x - 1;
 
     step = (double)texture->height / (double)data->ray->wall_height;
 
