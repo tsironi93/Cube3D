@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:04:35 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/07/16 14:23:27 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:44:14 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@
 main raycasting function 
 casts a single ray per iteration
 - loops through each screen column, calculates where ray hits wall (DDA),
-   how tall to draw the wall, and draws that vertical line including floor and ceiling
+   how tall to draw the wall, and draws that vertical line including floor
+   and ceiling
 */
 void	raycasting(void *param)
 {
-	t_data		*data;
+	t_data	*data;
+	int		screen_x;
+
 	data = (t_data *)param;
-	int screen_x;
 	screen_x = 0;
 	while (screen_x < data->width)
 	{

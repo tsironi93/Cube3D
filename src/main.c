@@ -3,39 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:13:23 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/16 15:17:42 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:41:15 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3d.h"
 
-static void	check_leaks(void)
-{
-	char	cmd[256];
+// static void	check_leaks(void)
+// {
+// 	char	cmd[256];
 
-	snprintf(cmd, sizeof(cmd), "leaks %s", getprogname());
-	system(cmd);
-}
+// 	snprintf(cmd, sizeof(cmd), "leaks %s", getprogname());
+// 	system(cmd);
+// }
 
 static void	clean_textures(t_data *data)
 {
 	int	i;
 
-	mlx_delete_texture(data->textures->north);
-	mlx_delete_texture(data->textures->south);
-	mlx_delete_texture(data->textures->west);
-	mlx_delete_texture(data->textures->east);
-	i = -1;
-	while (data->textures->ceiling_color[++i])
-		free(data->textures->ceiling_color[i]);
-	free(data->textures->ceiling_color);
-	i = -1;
-	while (data->textures->floor_color[++i])
-		free(data->textures->floor_color[i]);
-	free(data->textures->floor_color);
+	if (data->textures->north)
+		mlx_delete_texture(data->textures->north);
+	if (data->textures->south)
+		mlx_delete_texture(data->textures->south);
+	if (data->textures->west)
+		mlx_delete_texture(data->textures->west);
+	if (data->textures->east)
+		mlx_delete_texture(data->textures->east);
+	if (data->textures->ceiling_color)
+	{
+		i = -1;
+		while (data->textures->ceiling_color[++i])
+			free(data->textures->ceiling_color[i]);
+		free(data->textures->ceiling_color);
+	}
+	if (data->textures->floor_color)
+	{
+		i = -1;
+		while (data->textures->floor_color[++i])
+			free(data->textures->floor_color[i]);
+		free(data->textures->floor_color);
+	}
 }
 
 static void	import_colors(t_data *data)
@@ -63,16 +73,28 @@ static void	import_textures(t_data *data)
 {
 	data->textures->north = mlx_load_png(data->textures->north_texture);
 	if (!data->textures->north)
+	{
+		clean_textures(data);
 		ft_error(data, "Failed to load north texture", true);
+	}
 	data->textures->south = mlx_load_png(data->textures->south_texture);
 	if (!data->textures->south)
+	{
+		clean_textures(data);
 		ft_error(data, "Failed to load south texture", true);
+	}
 	data->textures->west = mlx_load_png(data->textures->west_texture);
 	if (!data->textures->west)
+	{
+		clean_textures(data);
 		ft_error(data, "Failed to load west texture", true);
+	}
 	data->textures->east = mlx_load_png(data->textures->east_texture);
 	if (!data->textures->east)
+	{
+		clean_textures(data);
 		ft_error(data, "Failed to load east texture", true);
+	}
 	printf(BOLD YELLOW "Textures loaded successfully.\n" RESET);
 }
 
@@ -86,9 +108,6 @@ static void	init_mlx(t_data *data)
 	data->player = player;
 	player->player_pos_x = (float)data->player_pos[0];
 	player->player_pos_y = (float)data->player_pos[1];
-	// data->player->player_angle = PI / 2;
-	// data->player->player_delta_x = cos(data->player->player_angle);
-	// data->player->player_delta_y = sin(data->player->player_angle);
 	mlx_set_setting(MLX_MAXIMIZED, true);
 	data->mlx = mlx_init(data->width, data->height, "Cube3D", true);
 	if (!data->mlx)
@@ -100,11 +119,11 @@ static void	init_mlx(t_data *data)
 	import_colors(data);
 }
 
+// atexit(check_leaks);
 int32_t	main(int ac, char **av)
 {
 	t_data	data;
 
-	atexit(check_leaks);
 	init_cube(ac, av, &data);
 	init_structs(&data);
 	init_mlx(&data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:58:47 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/07/16 15:35:29 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:42:16 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,18 @@ mlx_texture_t	*select_texture(t_data *data, t_ray *ray)
 
 static void	texture_calcs(t_data *data, mlx_texture_t *texture, t_wall *wall)
 {
-    if (data->ray->wall_side == NORTH || data->ray->wall_side == SOUTH)
-        wall->wall_x = data->player->player_pos_x + data->ray->dist_camvec_wall * data->ray->ray_dir_x;
-    else
-        wall->wall_x = data->player->player_pos_y + data->ray->dist_camvec_wall * data->ray->ray_dir_y;
+	if (data->ray->wall_side == NORTH || data->ray->wall_side == SOUTH)
+		wall->wall_x = data->player->player_pos_x + data->ray->dist_camvec_wall
+			* data->ray->ray_dir_x;
+	else
+		wall->wall_x = data->player->player_pos_y + data->ray->dist_camvec_wall
+			* data->ray->ray_dir_y;
 	wall->wall_x -= floor(data->wall->wall_x);
 	wall->tex_x = (int)(wall->wall_x * (double)texture->width);
-	if ((data->ray->wall_side == EAST && data->ray->ray_dir_x > 0) ||
-		(data->ray->wall_side == WEST && data->ray->ray_dir_x < 0) ||
-		(data->ray->wall_side == NORTH && data->ray->ray_dir_y > 0) ||
-		(data->ray->wall_side == SOUTH && data->ray->ray_dir_y < 0))
+	if ((data->ray->wall_side == EAST && data->ray->ray_dir_x > 0)
+		|| (data->ray->wall_side == WEST && data->ray->ray_dir_x < 0)
+		|| (data->ray->wall_side == NORTH && data->ray->ray_dir_y > 0)
+		|| (data->ray->wall_side == SOUTH && data->ray->ray_dir_y < 0))
 		wall->tex_x = texture->width - wall->tex_x - 1;
 	wall->step = (double)texture->height / (double)data->ray->wall_height;
 	wall->tex_pos = (data->ray->draw_start - (double)data->height / 2.0

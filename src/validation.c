@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/16 12:21:36 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/16 16:36:45 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static void	texture_and_colors(t_data *data, char *line, t_map_data ref)
 	else if (ref == CEILING_COLOR)
 		if (is_all_num_string(data, ptr))
 			data->textures->ceiling_color = ft_split(ptr, ',');
+	if (!ft_strcmp(ptr, ""))
+		ft_error(data, "No valid texture set", false);
 	free(ptr);
 }
 

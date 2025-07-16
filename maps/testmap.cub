@@ -1,6 +1,7 @@
 			    NO	./textures/rocks/0pwal10.png
 				SO	    ./textures/rocks/straw_hats.png
-				EA ./textures/rocks/0pwal12.png
+				EA 													
+				./textures/rocks/0pwal12.png
 
 F 42, 42, 42
 C 0 , 0 , 0

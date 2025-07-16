@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda_algorithm.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: itsiros <itsiros@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:29:50 by pdrettas          #+#    #+#             */
-/*   Updated: 2025/07/16 14:58:11 by pdrettas         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:40:50 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ sets up initial values for the grid traversal using DDA,
 based on the ray direction & player position.
 1. determines which box/grid the player is in
 2. calculates whether the ray goes left/right or up/down (step_x, step_y)
-3. prepares the distance to the first grid/wall hit (side_dist_x/y) in helper fts. 
+3. prepares the distance to the first grid/wall hit (side_dist_x/y)
+in helper fts. 
 */
 void	prepare_dda(t_data *data, t_ray *ray, t_vector *vec)
 {
