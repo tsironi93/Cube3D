@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:59:12 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/14 16:58:18 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/16 12:21:36 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,13 @@ static void	texture_and_colors(t_data *data, char *line, t_map_data ref)
 	else if (ref == EAST_TEXTURE)
 		data->textures->east_texture = gc_strdup(&data->gc, ptr);
 	else if (ref == FLOOR_COLOR)
-		data->textures->floor_color = ft_split(ptr, ',');
+	{
+		if (is_all_num_string(data, ptr))
+			data->textures->floor_color = ft_split(ptr, ',');
+	}
 	else if (ref == CEILING_COLOR)
-		data->textures->ceiling_color = ft_split(ptr, ',');
+		if (is_all_num_string(data, ptr))
+			data->textures->ceiling_color = ft_split(ptr, ',');
 	free(ptr);
 }
 

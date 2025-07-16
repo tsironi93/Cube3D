@@ -6,7 +6,7 @@
 /*   By: pdrettas <pdrettas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:50:07 by itsiros           #+#    #+#             */
-/*   Updated: 2025/07/12 11:10:49 by itsiros          ###   ########.fr       */
+/*   Updated: 2025/07/16 12:21:02 by itsiros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,30 @@ int	ft_isspace(int c)
 	if ((c > 8 && c < 14) || c == 32)
 		return (1);
 	return (0);
+}
+
+bool	is_all_num_string(t_data *data, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]) && str[i] != ' ' && str[i] != ',')
+		{
+			if (data->textures->floor_color)
+			{
+				i = -1;
+				while (data->textures->floor_color[++i])
+					free(data->textures->floor_color[i]);
+				free(data->textures->floor_color);
+			}
+			ft_error(data, "Invalid ceiling or floor color format", false);
+			return (false);
+		}
+		i++;
+	}
+	return (true);
 }
 
 bool	flood_check(t_data *data, char **map, int y, int x)
